@@ -8,7 +8,7 @@ import (
 type shantenSearchNode13 struct {
 	shanten  int
 	waits    Waits
-	children map[int]*shantenSearchNode14 // 向听前进的摸牌-node14
+	children map[int]*shantenSearchNode14 // 向聽前進的摸牌-node14
 }
 
 func (n *shantenSearchNode13) printWithPrefix(prefix string) string {
@@ -25,7 +25,7 @@ func (n *shantenSearchNode13) String() string {
 
 type shantenSearchNode14 struct {
 	shanten  int
-	children map[int]*shantenSearchNode13 // 向听不变的舍牌-node13
+	children map[int]*shantenSearchNode13 // 向聽不變的捨牌-node13
 }
 
 func (n *shantenSearchNode14) printWithPrefix(prefix string) string {
@@ -34,7 +34,7 @@ func (n *shantenSearchNode14) printWithPrefix(prefix string) string {
 	}
 	output := ""
 	for discardTile, node13 := range n.children {
-		output += prefix + fmt.Sprintln("舍", Mahjong[discardTile]) + node13.printWithPrefix(prefix+"  ")
+		output += prefix + fmt.Sprintln("捨", Mahjong[discardTile]) + node13.printWithPrefix(prefix+"  ")
 	}
 	return output
 }
@@ -51,7 +51,7 @@ func _search13(currentShanten int, playerInfo *model.PlayerInfo, stopAtShanten i
 
 	isTenpai := currentShanten == shantenStateTenpai
 
-	// 剪枝：检测浮牌，在不考虑国士无双的情况下，这种牌是不可能让向听数前进的（但有改良的可能，不过本函数不考虑这个）
+	// 剪枝：檢測浮牌，在不考慮國士無雙的情況下，這種牌是不可能讓向聽數前進的（但有改良的可能，不過本函數不考慮這個）
 	//if !isTenpai {
 	//	needCheck34 := make([]bool, 34)
 	//	idx := -1
@@ -104,15 +104,15 @@ func _search13(currentShanten int, playerInfo *model.PlayerInfo, stopAtShanten i
 		}
 		tiles34[i]++
 		if isTenpai {
-			// 优化：听牌时改用更为快速的 IsAgari
+			// 優化：聽牌時改用更為快速的 IsAgari
 			if IsAgari(tiles34) {
 				waits[i] = leftTiles34[i]
 				children[i] = nil
 			}
 		} else {
 			if CalculateShanten(tiles34) < currentShanten {
-				// 向听前进了，则换的这张牌为进张，进张数即剩余枚数
-				// 有可能为 0，但考虑到判断振听时需要进张种类，所以记录
+				// 向聽前進了，則換的這張牌為進張，進張數即剩餘枚數
+				// 有可能為 0，但考慮到判斷振聽時需要進張種類，所以記錄
 				waits[i] = leftTiles34[i]
 				if leftTiles34[i] > 0 && currentShanten-1 >= stopAtShanten {
 					leftTiles34[i]--
@@ -133,9 +133,9 @@ func _search13(currentShanten int, playerInfo *model.PlayerInfo, stopAtShanten i
 	}
 }
 
-// 技巧：传入的 targetShanten 若为当前手牌的向听+1，则为向听倒退
+// 技巧：傳入的 targetShanten 若為當前手牌的向聽+1，則為向聽倒退
 func _search14(targetShanten int, playerInfo *model.PlayerInfo, stopAtShanten int) *shantenSearchNode14 {
-	// 不需要判断 targetShanten 是否为 shantenStateAgari：因为_search13 中用的是 IsAgari，所以 targetShanten 是 >=0 的
+	// 不需要判斷 targetShanten 是否為 shantenStateAgari：因為_search13 中用的是 IsAgari，所以 targetShanten 是 >=0 的
 	children := map[int]*shantenSearchNode13{}
 	tiles34 := playerInfo.HandTiles34
 	for i := 0; i < 34; i++ {
@@ -144,7 +144,7 @@ func _search14(targetShanten int, playerInfo *model.PlayerInfo, stopAtShanten in
 		}
 		tiles34[i]--
 		if CalculateShanten(tiles34) == targetShanten {
-			// 向听不变，舍牌正确
+			// 向聽不變，捨牌正確
 			children[i] = _search13(targetShanten, playerInfo, stopAtShanten)
 		}
 		tiles34[i]++
@@ -156,7 +156,7 @@ func _search14(targetShanten int, playerInfo *model.PlayerInfo, stopAtShanten in
 	}
 }
 
-// 3k+1 张牌，计算向听数、进张（考虑了剩余枚数），不计算改良
+// 3k+1 張牌，計算向聽數、進張（考慮了剩餘枚數），不計算改良
 func CalculateShantenAndWaits13(tiles34 []int, leftTiles34 []int) (shanten int, waits Waits) {
 	if len(leftTiles34) == 0 {
 		leftTiles34 = InitLeftTiles34WithTiles34(tiles34)
@@ -164,12 +164,12 @@ func CalculateShantenAndWaits13(tiles34 []int, leftTiles34 []int) (shanten int, 
 
 	shanten = CalculateShanten(tiles34)
 	pi := &model.PlayerInfo{HandTiles34: tiles34, LeftTiles34: leftTiles34}
-	node13 := _search13(shanten, pi, shanten) // 只搜索一层
+	node13 := _search13(shanten, pi, shanten) // 只搜索一層
 	waits = node13.waits
 	return
 }
 
-// 技巧：传入的 shanten 若为当前手牌的向听+1，则为向听倒退
+// 技巧：傳入的 shanten 若為當前手牌的向聽+1，則為向聽倒退
 func searchShanten14(shanten int, playerInfo *model.PlayerInfo, stopAtShanten int) *shantenSearchNode14 {
 	if shanten == shantenStateAgari {
 		return &shantenSearchNode14{

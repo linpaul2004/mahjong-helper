@@ -77,7 +77,7 @@ func TestCalculateShantenWithImproves13Closed(t *testing.T) {
 	} {
 		tiles34 := MustStrToTiles34(tiles)
 		if CountOfTiles34(tiles34) != 13 {
-			t.Error(tiles, "不是13张牌")
+			t.Error(tiles, "不是13張牌")
 			continue
 		}
 		playerInfo := model.NewSimplePlayerInfo(tiles34, nil)
@@ -108,7 +108,7 @@ func TestCalculateShantenWithImproves13Open(t *testing.T) {
 		"1234m",
 		"1135m",
 		"5p",
-		"5555m", // 一向听，132 进张
+		"5555m", // 一向聽，132 進張
 	} {
 		tiles34 := MustStrToTiles34(tiles)
 		result := CalculateShantenWithImproves13(model.NewSimplePlayerInfo(tiles34, exampleMelds))
@@ -128,7 +128,7 @@ func TestCalculateShantenWithImproves14Closed(t *testing.T) {
 	tiles = "334m 122478p 23456s"
 	tiles = "1m 258p 258s 1234567z"
 	tiles = "4567m 4579p 344588s"
-	tiles = "2479999m 45667p 13s" // 切任何一张都不会向听倒退
+	tiles = "2479999m 45667p 13s" // 切任何一張都不會向聽倒退
 	tiles = "25667m 27789p 37s 44z"
 	tiles = "111444777m 11177s"
 	tiles = "2468m 33578p 22356s"
@@ -136,7 +136,7 @@ func TestCalculateShantenWithImproves14Closed(t *testing.T) {
 	tiles = "57m 3445667p 12399s"
 	tiles = "2335578899m 5677p"
 	tiles = "123p 3445668m 6799s"
-	tiles = "455678m 11566p 234s" // TODO 振听 9m 的场合，切 6p 振听听牌的概率比切 5m 低
+	tiles = "455678m 11566p 234s" // TODO 振聽 9m 的場合，切 6p 振聽聽牌的概率比切 5m 低
 	tiles = "1245m 12789p 34588s"
 	tiles = "4456778p 2245s 111z"
 	tiles = "388m 113668p 56s 456z"
@@ -144,15 +144,15 @@ func TestCalculateShantenWithImproves14Closed(t *testing.T) {
 	tiles = "66778p 1122345s 77z"
 	tiles = "67778p 1122345s 77z"
 	tiles = "3336888m 678p 5678s"
-	tiles = "11456678m 567p 235s" // 振听两面还是坎张
+	tiles = "11456678m 567p 235s" // 振聽兩面還是坎張
 	tiles = "123m 1234789p 3388s"
 	tiles = "789m 123467789p 11z"
 	tiles = "11122m 199p 2455s 56z"
 	tiles = "347m 579p 246s 12345z"
 	tiles = "13m 344579p 5699s 15z"
 	tiles = "145599m 18p 124s 157z"
-	tiles = "2389m 4566p 2289s 44z" // 垃圾进张考虑改良
-	tiles = "11233456789m 333p"     // 默听进张和立直不一样
+	tiles = "2389m 4566p 2289s 44z" // 垃圾進張考慮改良
+	tiles = "11233456789m 333p"     // 默聽進張和立直不一樣
 	tiles = "136688m 456p 55677s"
 	playerInfo := model.NewSimplePlayerInfo(MustStrToTiles34(tiles), nil)
 	//playerInfo.SelfWindTile = MustStrToTile34("4z")
@@ -170,7 +170,7 @@ func TestCalculateShantenWithImproves14Closed(t *testing.T) {
 			t.Log(result)
 		}
 	} else {
-		t.Log("无向听倒退的切牌")
+		t.Log("無向聽倒退的切牌")
 	}
 }
 
@@ -218,11 +218,11 @@ func TestCalculateMeld(t *testing.T) {
 	tile = "3s"
 	tile = "7z"
 	shanten, results, incShantenResults := CalculateMeld(pi, MustStrToTile34(tile), false, true)
-	t.Log("鸣牌后" + NumberToChineseShanten(shanten))
+	t.Log("鳴牌後" + NumberToChineseShanten(shanten))
 	for _, result := range results {
 		t.Log(result)
 	}
-	t.Log("鸣牌后" + NumberToChineseShanten(shanten+1))
+	t.Log("鳴牌後" + NumberToChineseShanten(shanten+1))
 	for _, result := range incShantenResults {
 		t.Log(result)
 	}
@@ -248,7 +248,7 @@ func bestHumanDiscardTile(t *testing.T, humanTiles string, doraHumanTiles string
 }
 
 func bestHumanDiscardTile2(t *testing.T, humanTiles string, doraIndicatorHumanTiles string) string {
-	// 根据 0 来记录赤宝牌
+	// 根據 0 來記錄赤寶牌
 	numRedFives := make([]int, 3)
 	for _, split := range strings.Split(humanTiles, " ") {
 		for _, c := range split {
@@ -280,23 +280,23 @@ func bestHumanDiscardTile2(t *testing.T, humanTiles string, doraIndicatorHumanTi
 	return Tile34ToStr(tile)
 }
 
-// CxQx 来源：知るだけで強くなる麻雀の2択
+// CxQx 來源：知るだけで強くなる麻雀の2択
 func TestBestDiscard(t *testing.T) {
 	assert := assert.New(t)
 
-	// 听牌
-	assert.Equal("7m", bestHumanDiscardTile(t, "123667m 234p 345s 55z", ""))   // C3Q4 数牌字牌双碰优于两面
+	// 聽牌
+	assert.Equal("7m", bestHumanDiscardTile(t, "123667m 234p 345s 55z", ""))   // C3Q4 數牌字牌雙碰優於兩面
 	assert.Equal("6m", bestHumanDiscardTile(t, "123667m 234p 345s 44z", ""))   // C3Q4 平和
 	assert.Equal("4m", bestHumanDiscardTile(t, "134m 123567p 12355s", ""))     // C3Q5 三色
 	assert.Equal("4m", bestHumanDiscardTile(t, "134m 123567p 12355s", "5p"))   // C3Q5 三色
-	assert.Equal("4s", bestHumanDiscardTile(t, "234456m 11567p 468s", ""))     // C3Q8 筋引挂比赤5好
-	assert.Equal("1m", bestHumanDiscardTile(t, "1234m 345789p 567s 3z", "3z")) // C3Q10 宝牌单骑比两面好
+	assert.Equal("4s", bestHumanDiscardTile(t, "234456m 11567p 468s", ""))     // C3Q8 筋引掛比赤5好
+	assert.Equal("1m", bestHumanDiscardTile(t, "1234m 345789p 567s 3z", "3z")) // C3Q10 寶牌單騎比兩面好
 	assert.Equal("5s", bestHumanDiscardTile(t, "345m 345789p 3455s 4z", ""))   // C3Q15 三色比平和好
-	assert.Equal("7m", bestHumanDiscardTile(t, "234788m 234567s 33z", "8m"))   // C3Q17 和率下降一点但是打点提升
-	assert.Equal("8m", bestHumanDiscardTile(t, "234788m 234567s 33z", "3z"))   // C3Q17 打点充足时和率优先
-	assert.Equal("7m", bestHumanDiscardTile(t, "334557m 222p 789s 33z", "9s")) // C3Q18 和率下降一点但是打点提升
+	assert.Equal("7m", bestHumanDiscardTile(t, "234788m 234567s 33z", "8m"))   // C3Q17 和率下降一點但是打點提升
+	assert.Equal("8m", bestHumanDiscardTile(t, "234788m 234567s 33z", "3z"))   // C3Q17 打點充足時和率優先
+	assert.Equal("7m", bestHumanDiscardTile(t, "334557m 222p 789s 33z", "9s")) // C3Q18 和率下降一點但是打點提升
 
-	// 一向听 技术论
+	// 一向聽 技術論
 	//assert.Equal("1m", bestHumanDiscardTile(t, "1223446m 345p 1178s", "8s"))
 	//assert.Equal("6m", bestHumanDiscardTile(t, "1223446m 345p 78s 77z", "8s"))
 	//assert.Equal("2m", bestHumanDiscardTile(t, "1223446789m 1178s", "8s")) // 4m 也可以
@@ -304,9 +304,9 @@ func TestBestDiscard(t *testing.T) {
 
 	//assert.Equal("4m", bestHumanDiscardTile(t, "334456788m 45p 456s", ""))
 
-	// 两向听
+	// 兩向聽
 
-	// 三向听
+	// 三向聽
 	assert.Equal("8p", bestHumanDiscardTile(t, "23668m 258p 4678s 77z", "2p"))
 	assert.Equal("2p", bestHumanDiscardTile(t, "23668m 258p 4678s 77z", "8p"))
 	assert.Equal("2p", bestHumanDiscardTile(t, "23668m 258p 4678s 77z", ""))
@@ -315,7 +315,7 @@ func TestBestDiscard(t *testing.T) {
 func TestBest2(t *testing.T) {
 	assert := assert.New(t)
 
-	// 传入手牌和宝牌指示牌，赤牌用 0 表示
+	// 傳入手牌和寶牌指示牌，赤牌用 0 表示
 	assert.Equal("5z", bestHumanDiscardTile2(t, "789m 23678p 1235s 25z", "3z"))
 	assert.Equal("8p", bestHumanDiscardTile2(t, "24668m 2078p 23457s", "3z"))
 }
@@ -344,24 +344,24 @@ func TestFuritenBestDiscard(t *testing.T) {
 		return Tile34ToStr(tile)
 	}
 
-	// 振听听牌
+	// 振聽聽牌
 	assert.Equal("5s", bestHumanDiscardTileWhenFuriten(t, "11456678m 567p 235s", "8m", "1s")) // C3Q6
 	assert.Equal("6p", bestHumanDiscardTileWhenFuriten(t, "455678m 11566p 234s", "", "9m"))
 }
 
-// TODO: 测试何切 300 和 301
+// TODO: 測試何切 300 和 301
 func TestQ300(t *testing.T) {
 	assert := assert.New(t)
 
-	// 传入手牌和宝牌指示牌，赤牌用 0 表示
+	// 傳入手牌和寶牌指示牌，赤牌用 0 表示
 	assert.Equal("2s", bestHumanDiscardTile2(t, "06778p 1122345s 77z", "2z"))                // Q001
 	assert.Equal("5s", bestHumanDiscardTile2(t, "66778p 1122345s 77z", "2z"))                // Q002
-	assert.Equal("8p", bestHumanDiscardTile2(t, "67778p 1122345s 77z", "2z"), "尚未考虑自摸时的三暗刻") // Q003
+	assert.Equal("8p", bestHumanDiscardTile2(t, "67778p 1122345s 77z", "2z"), "尚未考慮自摸時的三暗刻") // Q003
 	assert.Equal("5s", bestHumanDiscardTile2(t, "12388m 455679p 556s", "2z"))                // Q004
 	assert.Equal("9p", bestHumanDiscardTile2(t, "23488m 455679p 556s", "2z"))                // Q005
 	assert.Equal("8p", bestHumanDiscardTile2(t, "33455m 668p 345667s", "2p"))                // Q006
 	assert.Equal("1p", bestHumanDiscardTile2(t, "4406m 134556p 3478s", "2z"))                // Q007
-	assert.Equal("2p", bestHumanDiscardTile2(t, "135m 11240667p 789s", "9s"), "麻雀是自摸的游戏")    // Q008
+	assert.Equal("2p", bestHumanDiscardTile2(t, "135m 11240667p 789s", "9s"), "麻雀是自摸的遊戲")    // Q008
 	assert.Equal("5m", bestHumanDiscardTile2(t, "135m 12399p 123667s", "2z"))                // Q009
 	assert.Equal("3p", bestHumanDiscardTile2(t, "40699m 1133p 34567s", "1m"))                // Q010
 	assert.Equal("1m", bestHumanDiscardTile2(t, "1234m 5678p 122233s", "8s"))                // Q011
@@ -370,7 +370,7 @@ func TestQ300(t *testing.T) {
 	assert.Equal("8p", bestHumanDiscardTile2(t, "23468p 130777s 444z", "1p"))                // Q030
 	assert.Equal("3m", bestHumanDiscardTile2(t, "3356m 23478p 56777s", "7p"), "6m 也可以")      // Q033
 	assert.Equal("1p", bestHumanDiscardTile2(t, "3456m 137899p 4578s", "1m"), "3m 也可以")      // Q037
-	assert.Equal("8s", bestHumanDiscardTile2(t, "34056m 2224p 23468s", "8m"), "考虑改良的影响")     // Q058
+	assert.Equal("8s", bestHumanDiscardTile2(t, "34056m 2224p 23468s", "8m"), "考慮改良的影響")     // Q058
 }
 
 //
@@ -379,7 +379,7 @@ func BenchmarkCalculateShantenWithImproves14_Shanten0(b *testing.B) {
 	pi := model.NewSimplePlayerInfo(MustStrToTiles34("134m 123567p 12355s"), nil)
 	for i := 0; i < b.N; i++ {
 		// 157,447,560 ns/op
-		// 由于考虑了向听倒退，所以速度和一向听差不多
+		// 由於考慮了向聽倒退，所以速度和一向聽差不多
 		CalculateShantenWithImproves14(pi)
 	}
 }
@@ -388,7 +388,7 @@ func BenchmarkCalculateShantenWithImproves14_Shanten1(b *testing.B) {
 	pi := model.NewSimplePlayerInfo(MustStrToTiles34("12388m 455679p 556s"), nil)
 	for i := 0; i < b.N; i++ {
 		// 145,454,040 ns/op
-		// FIXME: 向听倒退？
+		// FIXME: 向聽倒退？
 		CalculateShantenWithImproves14(pi)
 	}
 }

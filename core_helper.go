@@ -5,11 +5,11 @@ var debugMode = false
 type gameMode int
 
 const (
-	// TODO: 感觉有点杂乱需要重构
-	gameModeMatch       gameMode = iota // 对战 - IsInit
-	gameModeRecord                      // 解析牌谱
-	gameModeRecordCache                 // 解析牌谱 - runMajsoulRecordAnalysisTask
-	gameModeLive                        // 解析观战
+	// TODO: 感覺有點雜亂需要重構
+	gameModeMatch       gameMode = iota // 對戰 - IsInit
+	gameModeRecord                      // 解析牌譜
+	gameModeRecordCache                 // 解析牌譜 - runMajsoulRecordAnalysisTask
+	gameModeLive                        // 解析觀戰
 )
 
 const (
@@ -20,12 +20,12 @@ const (
 const (
 	meldTypeChi    = iota // 吃
 	meldTypePon           // 碰
-	meldTypeAnkan         // 暗杠
-	meldTypeMinkan        // 大明杠
-	meldTypeKakan         // 加杠
+	meldTypeAnkan         // 暗槓
+	meldTypeMinkan        // 大明槓
+	meldTypeKakan         // 加槓
 )
 
-// 负数变正数
+// 負數變正數
 func normalDiscardTiles(discardTiles []int) []int {
 	newD := make([]int, len(discardTiles))
 	copy(newD, discardTiles)

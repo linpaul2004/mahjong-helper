@@ -5,8 +5,8 @@ import (
 	"sort"
 )
 
-// 计算各张待牌的和率
-// 剩余为 0 则和率为 0
+// 計算各張待牌的和率
+// 剩餘為 0 則和率為 0
 func CalculateAgariRateOfEachTile(waits Waits, playerInfo *model.PlayerInfo) map[int]float64 {
 	if playerInfo == nil {
 		playerInfo = &model.PlayerInfo{}
@@ -14,7 +14,7 @@ func CalculateAgariRateOfEachTile(waits Waits, playerInfo *model.PlayerInfo) map
 
 	tileAgariRate := map[int]float64{}
 
-	// 振听的话和率简化成和枚数相关
+	// 振聽的話和率簡化成和枚數相關
 	if playerInfo.IsFuriten(waits) {
 		for tile, left := range waits {
 			rate := 0.0
@@ -26,14 +26,14 @@ func CalculateAgariRateOfEachTile(waits Waits, playerInfo *model.PlayerInfo) map
 		return tileAgariRate
 	}
 
-	// 特殊处理字牌单骑的情况
+	// 特殊處理字牌單騎的情況
 	if len(waits) == 1 {
 		for tile, left := range waits {
 			if tile >= 27 {
 				rate := honorTileDankiAgariTable[left]
 				if InInts(tile, playerInfo.DoraTiles) {
-					// 调整听宝牌时的和率
-					// 忽略 dora 复合的影响
+					// 調整聽寶牌時的和率
+					// 忽略 dora 複合的影響
 					rate *= honorDoraAgariMulti
 				}
 				tileAgariRate[tile] = rate
@@ -42,18 +42,18 @@ func CalculateAgariRateOfEachTile(waits Waits, playerInfo *model.PlayerInfo) map
 		}
 	}
 
-	// 根据自家舍牌，确定各个牌的类型（无筋、半筋、筋、两筋），从而得出不同的和率
+	// 根據自家捨牌，確定各個牌的類型（無筋、半筋、筋、兩筋），從而得出不同的和率
 	tileType27 := calcTileType27(playerInfo.DiscardTiles)
 	for tile, left := range waits {
 		var rate float64
-		if tile < 27 { // 数牌
+		if tile < 27 { // 數牌
 			rate = agariMap[tileType27[tile]][left]
-		} else { // 字牌，非单骑
+		} else { // 字牌，非單騎
 			rate = honorTileNonDankiAgariTable[left]
 		}
 		if InInts(tile, playerInfo.DoraTiles) {
-			// 调整听宝牌时的和率
-			// 忽略 dora 复合的影响
+			// 調整聽寶牌時的和率
+			// 忽略 dora 複合的影響
 			if tile >= 27 {
 				rate *= honorDoraAgariMulti
 			} else {
@@ -66,13 +66,13 @@ func CalculateAgariRateOfEachTile(waits Waits, playerInfo *model.PlayerInfo) map
 	return tileAgariRate
 }
 
-// 计算平均和率
+// 計算平均和率
 func CalculateAvgAgariRate(waits Waits, playerInfo *model.PlayerInfo) float64 {
 	if playerInfo == nil {
 		playerInfo = &model.PlayerInfo{}
 	}
 
-	// 振听的话和率简化成和枚数相关
+	// 振聽的話和率簡化成和枚數相關
 	if playerInfo.IsFuriten(waits) {
 		rate := 0.0
 		for i := 0; i < waits.AllCount(); i++ {
@@ -87,8 +87,8 @@ func CalculateAvgAgariRate(waits Waits, playerInfo *model.PlayerInfo) float64 {
 		agariRate = agariRate + rate - agariRate*rate/100
 	}
 
-	// 调整两面和牌率
-	// 需要 waits 恰好是筋牌关系，不能有非筋牌
+	// 調整兩面和牌率
+	// 需要 waits 恰好是筋牌關係，不能有非筋牌
 	waitTiles := []int{}
 	for tile, left := range waits {
 		if left > 0 {

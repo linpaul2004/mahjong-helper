@@ -4,14 +4,14 @@ import "github.com/EndlessCheng/mahjong-helper/util/model"
 
 type _handInfo struct {
 	*model.PlayerInfo
-	divideResult *DivideResult // 手牌解析结果
+	divideResult *DivideResult // 手牌解析結果
 
-	// *在计算役种前，缓存自己的顺子牌和刻子牌，这样能减少大量重复计算
+	// *在計算役種前，緩存自己的順子牌和刻子牌，這樣能減少大量重複計算
 	allShuntsuFirstTiles []int
 	allKotsuTiles        []int
 }
 
-// 未排序。用于算一通、三色
+// 未排序。用於算一通、三色
 func (hi *_handInfo) getAllShuntsuFirstTiles() []int {
 	shuntsuFirstTiles := append([]int{}, hi.divideResult.ShuntsuFirstTiles...)
 	for _, meld := range hi.Melds {
@@ -22,7 +22,7 @@ func (hi *_handInfo) getAllShuntsuFirstTiles() []int {
 	return shuntsuFirstTiles
 }
 
-// 未排序。用于算对对、三色同刻
+// 未排序。用於算對對、三色同刻
 func (hi *_handInfo) getAllKotsuTiles() []int {
 	kotsuTiles := append([]int{}, hi.divideResult.KotsuTiles...)
 	for _, meld := range hi.Melds {
@@ -33,9 +33,9 @@ func (hi *_handInfo) getAllKotsuTiles() []int {
 	return kotsuTiles
 }
 
-// 是否包含字牌（调用前需要设置刻子牌）
+// 是否包含字牌（調用前需要設置刻子牌）
 func (hi *_handInfo) containHonor() bool {
-	// 七对子特殊处理
+	// 七對子特殊處理
 	if hi.divideResult.IsChiitoi {
 		for _, c := range hi.HandTiles34[27:] {
 			if c > 0 {
@@ -56,17 +56,17 @@ func (hi *_handInfo) containHonor() bool {
 	return false
 }
 
-// 是否为役牌，用于算役种（役牌、平和）、雀头加符
+// 是否為役牌，用於算役種（役牌、平和）、雀頭加符
 func (hi *_handInfo) isYakuTile(tile int) bool {
 	return tile >= 31 || tile == hi.RoundWindTile || tile == hi.SelfWindTile
 }
 
-// 是否为连风牌
+// 是否為連風牌
 func (hi *_handInfo) isDoubleWindTile(tile int) bool {
 	return hi.RoundWindTile == hi.SelfWindTile && tile == hi.RoundWindTile
 }
 
-// 暗杠个数，用于算三暗刻、四暗刻
+// 暗槓個數，用於算三暗刻、四暗刻
 func (hi *_handInfo) numAnkan() (cnt int) {
 	for _, meld := range hi.Melds {
 		if meld.MeldType == model.MeldTypeAnkan {
@@ -76,7 +76,7 @@ func (hi *_handInfo) numAnkan() (cnt int) {
 	return
 }
 
-// 杠子个数，用于算三杠子、四杠子
+// 槓子個數，用於算三槓子、四槓子
 func (hi *_handInfo) numKantsu() (cnt int) {
 	for _, meld := range hi.Melds {
 		if meld.IsKan() {
@@ -86,29 +86,29 @@ func (hi *_handInfo) numKantsu() (cnt int) {
 	return
 }
 
-// 暗刻个数，用于算三暗刻、四暗刻、符数（如 456666 荣和 6，这里算一个暗刻）
-// 即手牌暗刻和暗杠
+// 暗刻個數，用於算三暗刻、四暗刻、符數（如 456666 榮和 6，這裏算一個暗刻）
+// 即手牌暗刻和暗槓
 func (hi *_handInfo) numAnkou() (cnt int, isMinkou bool) {
 	num := len(hi.divideResult.KotsuTiles) + hi.numAnkan()
-	// 自摸直接返回，无需讨论是否荣和了刻子
+	// 自摸直接返回，無需討論是否榮和了刻子
 	if hi.IsTsumo {
 		return num, false
 	}
-	// 荣和的牌在雀头里
+	// 榮和的牌在雀頭裏
 	if hi.WinTile == hi.divideResult.PairTile {
 		return num, false
 	}
-	// 荣和的牌在顺子里
+	// 榮和的牌在順子裏
 	for _, tile := range hi.divideResult.ShuntsuFirstTiles {
 		if hi.WinTile >= tile && hi.WinTile <= tile+2 {
 			return num, false
 		}
 	}
-	// 荣和的牌只在刻子里，该刻子算明刻
+	// 榮和的牌在刻子裏，該刻子算明刻
 	return num - 1, true
 }
 
-// 计算在指定牌中的刻子个数
+// 計算在指定牌中的刻子個數
 func (hi *_handInfo) _countSpecialKotsu(specialTilesL, specialTilesLR int) (cnt int) {
 	for _, tile := range hi.allKotsuTiles {
 		if tile >= specialTilesL && tile <= specialTilesLR {

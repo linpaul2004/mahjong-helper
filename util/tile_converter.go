@@ -29,11 +29,11 @@ func TilesToTiles34(tiles []int) (tiles34 []int) {
 func StrToTile34(humanTile string) (tile34 int, isRedFive bool, err error) {
 	defer func() {
 		if er := recover(); er != nil {
-			err = fmt.Errorf("[StrToTile34] %#v 参数错误: %s", er, humanTile)
+			err = fmt.Errorf("[StrToTile34] %#v 參數錯誤: %s", er, humanTile)
 		}
 	}()
 
-	wrongHumanTileError := errors.New("[StrToTile34] 参数错误: " + humanTile)
+	wrongHumanTileError := errors.New("[StrToTile34] 參數錯誤: " + humanTile)
 
 	humanTile = strings.TrimSpace(humanTile)
 	if len(humanTile) != 2 {
@@ -47,7 +47,7 @@ func StrToTile34(humanTile string) (tile34 int, isRedFive bool, err error) {
 
 	i := humanTile[0]
 	if i == '0' {
-		if idx == 3 { // 没有 0z 这种东西
+		if idx == 3 { // 沒有 0z 這種東西
 			return -1, false, wrongHumanTileError
 		}
 		i = '5'
@@ -62,7 +62,7 @@ func StrToTile34(humanTile string) (tile34 int, isRedFive bool, err error) {
 	return
 }
 
-// 调试用
+// 調試用
 func MustStrToTile34(humanTile string) int {
 	tile34, _, err := StrToTile34(humanTile)
 	if err != nil {
@@ -72,22 +72,22 @@ func MustStrToTile34(humanTile string) int {
 }
 
 // e.g. "224m 24p" => [0, 2, 0, 1, 0, ..., 1, 0, 1, ...]
-// 也可以传入不含空格的手牌，如 "224m24p"
+// 也可以傳入不含空格的手牌，如 "224m24p"
 // 可以接收赤5，如 0p
 func StrToTiles34(humanTiles string) (tiles34 []int, numRedFives []int, err error) {
 	defer func() {
 		if er := recover(); er != nil {
-			err = errors.New("[StrToTiles34] 参数错误: " + humanTiles)
+			err = errors.New("[StrToTiles34] 參數錯誤: " + humanTiles)
 		}
 	}()
 
-	// 在 mpsz 后面加上空格方便解析不含空格的 humanTiles
+	// 在 mpsz 後面加上空格方便解析不含空格的 humanTiles
 	for _, tileType := range []string{"m", "p", "s", "z"} {
 		humanTiles = strings.Replace(humanTiles, tileType, tileType+" ", -1)
 	}
 	humanTiles = strings.TrimSpace(humanTiles)
 	if humanTiles == "" {
-		return nil, nil, errors.New("[StrToTiles34] 参数错误: 处理的手牌不能为空")
+		return nil, nil, errors.New("[StrToTiles34] 參數錯誤: 處理的手牌不能為空")
 	}
 
 	tiles34 = make([]int, 34)
@@ -98,7 +98,7 @@ func StrToTiles34(humanTiles string) (tiles34 []int, numRedFives []int, err erro
 			continue
 		}
 		if len(split) < 2 {
-			return nil, nil, errors.New("[StrToTiles34] 参数错误: " + humanTiles)
+			return nil, nil, errors.New("[StrToTiles34] 參數錯誤: " + humanTiles)
 		}
 		tileType := split[len(split)-1:]
 		for _, c := range split[:len(split)-1] {
@@ -109,7 +109,7 @@ func StrToTiles34(humanTiles string) (tiles34 []int, numRedFives []int, err erro
 			}
 			tiles34[tile34]++
 			if tiles34[tile34] > 4 {
-				return nil, nil, fmt.Errorf("[StrToTiles34] 参数错误: %s 有超过 4 张一样的牌", humanTiles)
+				return nil, nil, fmt.Errorf("[StrToTiles34] 參數錯誤: %s 有超過 4 張一樣的牌", humanTiles)
 			}
 			if isRedFive {
 				numRedFives[tile34/9]++
@@ -119,7 +119,7 @@ func StrToTiles34(humanTiles string) (tiles34 []int, numRedFives []int, err erro
 	return
 }
 
-// 调试用
+// 調試用
 func MustStrToTiles34(humanTiles string) []int {
 	tiles34, _, err := StrToTiles34(humanTiles)
 	if err != nil {
@@ -138,7 +138,7 @@ func StrToTiles(humanTiles string) (tiles []int, numRedFives []int, err error) {
 	return
 }
 
-// 调试用
+// 調試用
 func MustStrToTiles(humanTiles string) []int {
 	tiles, _, err := StrToTiles(humanTiles)
 	if err != nil {
@@ -200,7 +200,7 @@ func ParseHumanTilesWithMelds(humanTilesWithMelds string) (playerInfo *model.Pla
 	}
 	tileCount := CountOfTiles34(tiles34)
 	if tileCount%3 == 0 {
-		return nil, fmt.Errorf("输入错误: %s 是 %d 张牌", humanTilesInfo.HumanTiles, tileCount)
+		return nil, fmt.Errorf("輸入錯誤: %s 是 %d 張牌", humanTilesInfo.HumanTiles, tileCount)
 	}
 
 	melds := []model.Meld{}
@@ -221,7 +221,7 @@ func ParseHumanTilesWithMelds(humanTilesWithMelds string) (playerInfo *model.Pla
 		case len(tiles) == 4 && !isUpper:
 			meldType = model.MeldTypeMinkan
 		default:
-			return nil, fmt.Errorf("输入错误: %s", humanMeld)
+			return nil, fmt.Errorf("輸入錯誤: %s", humanMeld)
 		}
 		containRedFive := false
 		for i, c := range _numRedFives {

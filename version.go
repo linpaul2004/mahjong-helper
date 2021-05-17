@@ -10,7 +10,7 @@ import (
 
 const versionDev = "dev"
 
-// 编译时自动写入版本号
+// 編譯時自動寫入版本號
 // go build -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" -o mahjong-helper
 var version = versionDev
 
@@ -44,11 +44,11 @@ func checkNewVersion(currentVersionTag string) {
 
 	latestVersionTag, err := fetchLatestVersionTag()
 	if err != nil {
-		// 下次再说~
+		// 下次再說~
 		return
 	}
 
 	if latestVersionTag > currentVersionTag {
-		color.HiGreen("检测到新版本: %s！请前往 %s 下载", latestVersionTag, latestReleasePage)
+		color.HiGreen("檢測到新版本: %s！請前往 %s 下載", latestVersionTag, latestReleasePage)
 	}
 }

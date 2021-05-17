@@ -61,7 +61,7 @@ func (h *mjHandler) logError(err error) {
 	}
 }
 
-// 调试用
+// 調試用
 func (h *mjHandler) index(c echo.Context) error {
 	data, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
@@ -100,7 +100,7 @@ func (h *mjHandler) analysis(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-// 分析天凤 WebSocket 数据
+// 分析天鳳 WebSocket 數據
 func (h *mjHandler) analysisTenhou(c echo.Context) error {
 	data, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
@@ -115,7 +115,7 @@ func (h *mjHandler) runAnalysisTenhouMessageTask() {
 	if !debugMode {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println("内部错误：", err)
+				fmt.Println("內部錯誤：", err)
 			}
 		}()
 	}
@@ -141,7 +141,7 @@ func (h *mjHandler) runAnalysisTenhouMessageTask() {
 	}
 }
 
-// 分析雀魂 WebSocket 数据
+// 分析雀魂 WebSocket 數據
 func (h *mjHandler) analysisMajsoul(c echo.Context) error {
 	data, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
@@ -156,7 +156,7 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 	if !debugMode {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println("内部错误：", err)
+				fmt.Println("內部錯誤：", err)
 			}
 		}()
 	}
@@ -183,14 +183,14 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 			// 好友列表
 			fmt.Println(d.Friends)
 		case len(d.RecordBaseInfoList) > 0:
-			// 牌谱基本信息列表
+			// 牌譜基本信息列表
 			for _, record := range d.RecordBaseInfoList {
 				h.majsoulRecordMap[record.UUID] = record
 			}
-			color.HiGreen("收到 %2d 个雀魂牌谱（已收集 %d 个），请在网页上点击「查看」", len(d.RecordBaseInfoList), len(h.majsoulRecordMap))
+			color.HiGreen("收到 %2d 個雀魂牌譜（已收集 %d 個），請在網頁上點擊「查看」", len(d.RecordBaseInfoList), len(h.majsoulRecordMap))
 		case d.SharedRecordBaseInfo != nil:
-			// 处理分享的牌谱基本信息
-			// FIXME: 观看自己的牌谱也会有 d.SharedRecordBaseInfo
+			// 處理分享的牌譜基本信息
+			// FIXME: 觀看自己的牌譜也會有 d.SharedRecordBaseInfo
 			record := d.SharedRecordBaseInfo
 			h.majsoulRecordMap[record.UUID] = record
 			if err := h._loadMajsoulRecordBaseInfo(record.UUID); err != nil {
@@ -198,20 +198,20 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 				break
 			}
 		case d.CurrentRecordUUID != "":
-			// 载入某个牌谱
+			// 載入某個牌譜
 			resetAnalysisCache()
 			h.majsoulCurrentRecordActionsList = nil
 
 			if err := h._loadMajsoulRecordBaseInfo(d.CurrentRecordUUID); err != nil {
-				// 看的是分享的牌谱（先收到 CurrentRecordUUID 和 AccountID，然后收到 SharedRecordBaseInfo）
-				// 或者是比赛场的牌谱
-				// 记录主视角 ID（可能是 0）
+				// 看的是分享的牌譜（先收到 CurrentRecordUUID 和 AccountID，然後收到 SharedRecordBaseInfo）
+				// 或者是比賽場的牌譜
+				// 記錄主視角 ID（可能是 0）
 				gameConf.setMajsoulAccountID(d.AccountID)
 				break
 			}
 
-			// 看的是自己的牌谱
-			// 更新当前使用的账号
+			// 看的是自己的牌譜
+			// 更新當前使用的帳號
 			gameConf.addMajsoulAccountID(d.AccountID)
 			if gameConf.currentActiveMajsoulAccountID != d.AccountID {
 				fmt.Println()
@@ -220,31 +220,31 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 			}
 		case len(d.RecordActions) > 0:
 			if h.majsoulCurrentRecordActionsList != nil {
-				// TODO: 网页发送更恰当的信息？
+				// TODO: 網頁發送更恰當的信息？
 				break
 			}
 
 			if h.majsoulCurrentRecordUUID == "" {
-				h.logError(fmt.Errorf("错误：程序未收到所观看的雀魂牌谱的 UUID"))
+				h.logError(fmt.Errorf("錯誤：程序未收到所觀看的雀魂牌譜的 UUID"))
 				break
 			}
 
 			baseInfo, ok := h.majsoulRecordMap[h.majsoulCurrentRecordUUID]
 			if !ok {
-				h.logError(fmt.Errorf("错误：找不到雀魂牌谱 %s", h.majsoulCurrentRecordUUID))
+				h.logError(fmt.Errorf("錯誤：找不到雀魂牌譜 %s", h.majsoulCurrentRecordUUID))
 				break
 			}
 
 			selfAccountID := gameConf.currentActiveMajsoulAccountID
 			if selfAccountID == -1 {
-				h.logError(fmt.Errorf("错误：当前雀魂账号为空"))
+				h.logError(fmt.Errorf("錯誤：當前雀魂帳號為空"))
 				break
 			}
 
 			h.majsoulRoundData.newGame()
 			h.majsoulRoundData.gameMode = gameModeRecord
 
-			// 获取并设置主视角初始座位
+			// 獲取並設置主視角初始座位
 			selfSeat, err := baseInfo.getSelfSeat(selfAccountID)
 			if err != nil {
 				h.logError(err)
@@ -252,7 +252,7 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 			}
 			h.majsoulRoundData.selfSeat = selfSeat
 
-			// 准备分析……
+			// 準備分析……
 			majsoulCurrentRecordActions, err := parseMajsoulRecordAction(d.RecordActions)
 			if err != nil {
 				h.logError(err)
@@ -264,7 +264,7 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 
 			actions := h.majsoulCurrentRecordActionsList[h.majsoulCurrentRoundIndex]
 
-			// 创建分析任务
+			// 創建分析任務
 			analysisCache := newGameAnalysisCache(h.majsoulCurrentRecordUUID, selfSeat)
 			setAnalysisCache(analysisCache)
 			go analysisCache.runMajsoulRecordAnalysisTask(actions)
@@ -273,17 +273,17 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 			data := actions[0].Action
 			h._analysisMajsoulRoundData(data, originJSON)
 		case d.RecordClickAction != "":
-			// 处理网页上的牌谱点击：上一局/跳到某局/下一局/上一巡/跳到某巡/下一巡/上一步/播放/暂停/下一步/点击桌面
-			// 暂不能分析他家手牌
+			// 處理網頁上的牌譜點擊：上一局/跳到某局/下一局/上一巡/跳到某巡/下一巡/上一步/播放/暫停/下一步/點擊桌面
+			// 暫不能分析他家手牌
 			h._onRecordClick(d.RecordClickAction, d.RecordClickActionIndex, d.FastRecordTo)
 		case d.LiveBaseInfo != nil:
-			// 观战
-			gameConf.setMajsoulAccountID(1) // TODO: 重构
+			// 觀戰
+			gameConf.setMajsoulAccountID(1) // TODO: 重構
 			h.majsoulRoundData.newGame()
-			h.majsoulRoundData.selfSeat = 0 // 观战进来后看的是东起的玩家
+			h.majsoulRoundData.selfSeat = 0 // 觀戰進來後看的是東起的玩家
 			h.majsoulRoundData.gameMode = gameModeLive
 			clearConsole()
-			fmt.Printf("正在载入对战：%s", d.LiveBaseInfo.String())
+			fmt.Printf("正在載入對戰：%s", d.LiveBaseInfo.String())
 		case d.LiveFastAction != nil:
 			if err := h._loadLiveAction(d.LiveFastAction, true); err != nil {
 				h.logError(err)
@@ -295,17 +295,17 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 				break
 			}
 		case d.ChangeSeatTo != nil:
-			// 切换座位
+			// 切換座位
 			changeSeatTo := *(d.ChangeSeatTo)
 			h.majsoulRoundData.selfSeat = changeSeatTo
 			if debugMode {
-				fmt.Println("座位已切换至", changeSeatTo)
+				fmt.Println("座位已切換至", changeSeatTo)
 			}
 
 			var actions majsoulRoundActions
-			if h.majsoulRoundData.gameMode == gameModeLive { // 观战
+			if h.majsoulRoundData.gameMode == gameModeLive { // 觀戰
 				actions = h.majsoulCurrentRoundActions
-			} else { // 牌谱
+			} else { // 牌譜
 				fullActions := h.majsoulCurrentRecordActionsList[h.majsoulCurrentRoundIndex]
 				actions = fullActions[:h.majsoulCurrentActionIndex+1]
 				analysisCache := getAnalysisCache(changeSeatTo)
@@ -313,7 +313,7 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 					analysisCache = newGameAnalysisCache(h.majsoulCurrentRecordUUID, changeSeatTo)
 				}
 				setAnalysisCache(analysisCache)
-				// 创建分析任务
+				// 創建分析任務
 				go analysisCache.runMajsoulRecordAnalysisTask(fullActions)
 			}
 
@@ -330,20 +330,20 @@ func (h *mjHandler) runAnalysisMajsoulMessageTask() {
 func (h *mjHandler) _loadMajsoulRecordBaseInfo(majsoulRecordUUID string) error {
 	baseInfo, ok := h.majsoulRecordMap[majsoulRecordUUID]
 	if !ok {
-		return fmt.Errorf("错误：找不到雀魂牌谱 %s", majsoulRecordUUID)
+		return fmt.Errorf("錯誤：找不到雀魂牌譜 %s", majsoulRecordUUID)
 	}
 
-	// 标记当前正在观看的牌谱
+	// 標記當前正在觀看的牌譜
 	h.majsoulCurrentRecordUUID = majsoulRecordUUID
 	clearConsole()
-	fmt.Printf("正在解析雀魂牌谱：%s", baseInfo.String())
+	fmt.Printf("正在解析雀魂牌譜：%s", baseInfo.String())
 
-	// 标记古役模式
+	// 標記古役模式
 	isGuyiMode := baseInfo.Config.isGuyiMode()
 	util.SetConsiderOldYaku(isGuyiMode)
 	if isGuyiMode {
 		fmt.Println()
-		color.HiGreen("古役模式已开启")
+		color.HiGreen("古役模式已開啟")
 	}
 
 	return nil
@@ -382,7 +382,7 @@ func (h *mjHandler) _fastLoadActions(actions []*majsoulRecordAction) {
 	}
 	fastRecordEnd := util.MaxInt(0, len(actions)-3)
 	h.majsoulRoundData.skipOutput = true
-	// 留最后三个刷新，这样确保会刷新界面
+	// 留最後三個刷新，這樣確保會刷新界面
 	for _, action := range actions[:fastRecordEnd] {
 		h._analysisMajsoulRoundData(action.Action, "")
 	}
@@ -432,11 +432,11 @@ func (h *mjHandler) _onRecordClick(clickAction string, clickActionIndex int, fas
 			startActionIndex = h.majsoulCurrentActionIndex + 1
 		}
 		if debugMode {
-			fmt.Printf("快速处理牌谱中的操作：局 %d 动作 %d-%d\n", h.majsoulCurrentRoundIndex, startActionIndex, endActionIndex)
+			fmt.Printf("快速處理牌譜中的操作：局 %d 動作 %d-%d\n", h.majsoulCurrentRoundIndex, startActionIndex, endActionIndex)
 		}
 		for i, action := range currentRoundActions[startActionIndex : endActionIndex+1] {
 			if debugMode {
-				fmt.Printf("快速处理牌谱中的操作：局 %d 动作 %d\n", h.majsoulCurrentRoundIndex, startActionIndex+i)
+				fmt.Printf("快速處理牌譜中的操作：局 %d 動作 %d\n", h.majsoulCurrentRoundIndex, startActionIndex+i)
 			}
 			h._analysisMajsoulRoundData(action.Action, "")
 		}
@@ -448,13 +448,13 @@ func (h *mjHandler) _onRecordClick(clickAction string, clickActionIndex int, fas
 	}
 
 	if debugMode {
-		fmt.Printf("处理牌谱中的操作：局 %d 动作 %d\n", h.majsoulCurrentRoundIndex, h.majsoulCurrentActionIndex)
+		fmt.Printf("處理牌譜中的操作：局 %d 動作 %d\n", h.majsoulCurrentRoundIndex, h.majsoulCurrentActionIndex)
 	}
 	action := h.majsoulCurrentRecordActionsList[h.majsoulCurrentRoundIndex][h.majsoulCurrentActionIndex]
 	h._analysisMajsoulRoundData(action.Action, "")
 
 	if action.Name == "RecordHule" || action.Name == "RecordLiuJu" || action.Name == "RecordNoTile" {
-		// 播放和牌/流局动画，进入下一局或显示终局动画
+		// 播放和牌/流局動畫，進入下一局或顯示終局動畫
 		h.majsoulCurrentRoundIndex++
 		h.majsoulCurrentActionIndex = 0
 		if h.majsoulCurrentRoundIndex == len(h.majsoulCurrentRecordActionsList) {
@@ -481,15 +481,15 @@ func getMajsoulCurrentRecordUUID() string {
 func runServer(isHTTPS bool, port int) (err error) {
 	e := echo.New()
 
-	// 移除 echo.Echo 和 http.Server 在控制台上打印的信息
+	// 移除 echo.Echo 和 http.Server 在控制臺上打印的信息
 	e.HideBanner = true
 	e.HidePort = true
 	e.StdLogger = stdLog.New(ioutil.Discard, "", 0)
 
-	// 默认是 log.ERROR
+	// 默認是 log.ERROR
 	e.Logger.SetLevel(log.INFO)
 
-	// 设置日志输出到 log/gamedata-xxx.log
+	// 設置日誌輸出到 log/gamedata-xxx.log
 	filePath, err := newLogFilePath()
 	if err != nil {
 		return
@@ -501,7 +501,7 @@ func runServer(isHTTPS bool, port int) (err error) {
 	e.Logger.SetOutput(logFile)
 
 	e.Logger.Info("============================================================================================")
-	e.Logger.Info("服务启动")
+	e.Logger.Info("服務啟動")
 
 	h = &mjHandler{
 		log: e.Logger,
@@ -526,7 +526,7 @@ func runServer(isHTTPS bool, port int) (err error) {
 	e.POST("/tenhou", h.analysisTenhou)
 	e.POST("/majsoul", h.analysisMajsoul)
 
-	// code.js 也用的该端口
+	// code.js 也用的該端口
 	if port == 0 {
 		port = defaultPort
 	}
@@ -539,10 +539,10 @@ func runServer(isHTTPS bool, port int) (err error) {
 		err = startTLS(e, addr)
 	}
 	if err != nil {
-		// 检查是否为端口占用错误
+		// 檢查是否為端口佔用錯誤
 		if opErr, ok := err.(*net.OpError); ok && opErr.Op == "listen" {
 			if syscallErr, ok := opErr.Err.(*os.SyscallError); ok && syscallErr.Syscall == "bind" {
-				color.HiRed(addr + " 端口已被占用，程序无法启动（是否已经开启了本程序？）")
+				color.HiRed(addr + " 端口已被佔用，程序無法啟動（是否已經開啟了本程序？）")
 			}
 		}
 		return

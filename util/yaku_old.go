@@ -2,7 +2,7 @@ package util
 
 import "github.com/EndlessCheng/mahjong-helper/util/model"
 
-// 四副露大吊车，不能有暗杠
+// 四副露大吊車，不能有暗槓
 func (hi *_handInfo) shiiaruraotai() bool {
 	if len(hi.Melds) < 4 {
 		return false

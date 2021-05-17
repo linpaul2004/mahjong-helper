@@ -33,7 +33,7 @@ func Test_majsoul_analysis(t *testing.T) {
 
 	lines := strings.Split(string(logData), "\n")
 	if startLo == -1 {
-		// 取最近游戏的日志
+		// 取最近遊戲的日誌
 		for i := len(lines) - 1; i >= 0; i-- {
 			if strings.Contains(lines[i], "==============") {
 				startLo = i + 3
@@ -72,7 +72,7 @@ func Test_majsoul_analysis(t *testing.T) {
 		majsoulRoundData.msg = &d
 		majsoulRoundData.originJSON = msg
 		if err := majsoulRoundData.analysis(); err != nil {
-			fmt.Println("错误：", err)
+			fmt.Println("錯誤：", err)
 		}
 	}
 }
@@ -100,7 +100,7 @@ func Test_tenhou_analysis(t *testing.T) {
 
 	lines := strings.Split(string(logData), "\n")
 	if startLo == -1 {
-		// 取最近游戏的日志
+		// 取最近遊戲的日誌
 		for i := len(lines) - 1; i >= 0; i-- {
 			if strings.Contains(lines[i], "==============") {
 				startLo = i + 3
@@ -139,7 +139,7 @@ func Test_tenhou_analysis(t *testing.T) {
 		tenhouRoundData.msg = &d
 		tenhouRoundData.originJSON = msg
 		if err := tenhouRoundData.analysis(); err != nil {
-			fmt.Println("错误：", err)
+			fmt.Println("錯誤：", err)
 		}
 	}
 }

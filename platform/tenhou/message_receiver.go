@@ -23,7 +23,7 @@ func NewMessageReceiver() *MessageReceiver {
 
 var isSelfDraw = regexp.MustCompile("^T[0-9]{1,3}$").MatchString
 
-// TODO: 后续使用 parser 中提供的方法
+// TODO: 後續使用 parser 中提供的方法
 func (mr *MessageReceiver) isSelfDraw(data []byte) bool {
 	d := struct {
 		Tag string `json:"tag"`
@@ -41,18 +41,18 @@ func (mr *MessageReceiver) run() {
 			continue
 		}
 
-		// 收到了自家摸牌的消息，则等待一段很短的时间
-		time.Sleep(75 * time.Millisecond) // 实际间隔在 3~9ms
+		// 收到了自家摸牌的消息，則等待一段很短的時間
+		time.Sleep(75 * time.Millisecond) // 實際間隔在 3~9ms
 
-		// 未收到新数据
+		// 未收到新數據
 		if len(mr.originMessageQueue) == 0 {
 			mr.orderedMessageQueue <- data
 			continue
 		}
 
-		// 在短时间内收到了新数据
-		// 因为摸牌后肯定要等待玩家操作，正常情况是不会马上有新数据的，所以这说明前端乱序发来了数据
-		// 把 data 重新塞回去，这样才是正确的顺序
+		// 在短時間內收到了新數據
+		// 因為摸牌後肯定要等待玩家操作，正常情況是不會馬上有新數據的，所以這說明前端亂序發來了數據
+		// 把 data 重新塞回去，這樣才是正確的順序
 		mr.originMessageQueue <- data
 	}
 }

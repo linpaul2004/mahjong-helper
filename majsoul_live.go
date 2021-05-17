@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// 观战基本信息
+// 觀戰基本信息
 type majsoulLiveRecordBaseInfo struct {
 	UUID      string `json:"uuid"`
 	StartTime int64  `json:"start_time"`
@@ -20,7 +20,7 @@ type majsoulLiveRecordBaseInfo struct {
 
 func (i *majsoulLiveRecordBaseInfo) String() string {
 	const timeFormat = "2006-01-02 15:04:05"
-	output := fmt.Sprintf("%s\n开始于 %s\n\n", i.UUID, time.Unix(i.StartTime, 0).Format(timeFormat))
+	output := fmt.Sprintf("%s\n開始於 %s\n\n", i.UUID, time.Unix(i.StartTime, 0).Format(timeFormat))
 
 	maxAccountID := 0
 	for _, account := range i.Players {

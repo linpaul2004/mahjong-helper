@@ -54,7 +54,7 @@ func TestAnalysis(t *testing.T) {
 	raw = "24688m 34s # 111p 234p + 3m"
 	raw = "1112234567999m"
 	raw = "123567m 3334688p + 7z"
-	raw = "23777m 45677s # 777p + 7s" // *片听
+	raw = "23777m 45677s # 777p + 7s" // *片聽
 	raw = "456789m 1123678p 6z"
 	raw = "44779m 889p 78s # 666z + 8p?"
 	if _, err := analysisHumanTiles(model.NewSimpleHumanTilesInfo(raw)); err != nil {

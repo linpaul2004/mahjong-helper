@@ -2,8 +2,8 @@ package util
 
 import "github.com/EndlessCheng/mahjong-helper/util/model"
 
-// 没有立直时，根据玩家的副露、手切来判断其听牌率 (0-100)
-// TODO: 传入 *model.PlayerInfo
+// 沒有立直時，根據玩家的副露、手切來判斷其聽牌率 (0-100)
+// TODO: 傳入 *model.PlayerInfo
 func CalcTenpaiRate(melds []*model.Meld, discardTiles []int, meldDiscardsAt []int) float64 {
 	isNaki := false
 	for _, meld := range melds {
@@ -13,7 +13,7 @@ func CalcTenpaiRate(melds []*model.Meld, discardTiles []int, meldDiscardsAt []in
 	}
 
 	if !isNaki {
-		// 默听听牌率近似为巡目数
+		// 默聽聽牌率近似為巡目數
 		turn := len(discardTiles)
 		return float64(turn)
 	}
@@ -27,8 +27,8 @@ func CalcTenpaiRate(melds []*model.Meld, discardTiles []int, meldDiscardsAt []in
 	turn := MinInt(len(discardTiles), len(_tenpaiRate)-1)
 	_tenpaiRateWithTurn := _tenpaiRate[turn]
 
-	// 计算上一次副露后的手切数
-	// 注意连续开杠时，副露数 len(melds) 是不等于副露时的切牌数 len(meldDiscardsAt) 的
+	// 計算上一次副露後的手切數
+	// 注意連續開槓時，副露數 len(melds) 是不等於副露時的切牌數 len(meldDiscardsAt) 的
 	countTedashi := 0
 	if len(meldDiscardsAt) > 0 {
 		latestDiscardAt := meldDiscardsAt[len(meldDiscardsAt)-1]

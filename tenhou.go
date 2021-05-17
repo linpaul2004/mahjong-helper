@@ -155,66 +155,66 @@ type tenhouMessage struct {
 	//J string `json:"j"`
 	//G string `json:"g"`
 
-	// round 开始 tag=INIT
-	// 注意无论是三麻还是四麻，南1的场数都是4
-	Seed   string `json:"seed" xml:"seed,attr"` // 本局信息：场数，场棒数，立直棒数，骰子A减一，骰子B减一，宝牌指示牌 1,0,0,3,2,92
-	Ten    string `json:"ten" xml:"ten,attr"`   // 各家点数 280,230,240,250
-	Dealer string `json:"oya" xml:"oya,attr"`   // 庄家 0=自家, 1=下家, 2=对家, 3=上家
+	// round 開始 tag=INIT
+	// 注意無論是三麻還是四麻，南1的場數都是4
+	Seed   string `json:"seed" xml:"seed,attr"` // 本局信息：場數，場棒數，立直棒數，骰子A減一，骰子B減一，寶牌指示牌 1,0,0,3,2,92
+	Ten    string `json:"ten" xml:"ten,attr"`   // 各家點數 280,230,240,250
+	Dealer string `json:"oya" xml:"oya,attr"`   // 莊家 0=自家, 1=下家, 2=對家, 3=上家
 	Hai    string `json:"hai" xml:"hai,attr"`   // 初始手牌 30,114,108,31,78,107,25,23,2,14,122,44,49
 	Hai0   string `json:"-" xml:"hai0,attr"`
 	Hai1   string `json:"-" xml:"hai1,attr"`
 	Hai2   string `json:"-" xml:"hai2,attr"`
 	Hai3   string `json:"-" xml:"hai3,attr"`
 
-	// 摸牌 tag=T编号，如 T68
+	// 摸牌 tag=T編號，如 T68
 
 	// 副露 tag=N
-	Who  string `json:"who" xml:"who,attr"` // 副露者 0=自家, 1=下家, 2=对家, 3=上家
-	Meld string `json:"m" xml:"m,attr"`     // 副露编号 35914
+	Who  string `json:"who" xml:"who,attr"` // 副露者 0=自家, 1=下家, 2=對家, 3=上家
+	Meld string `json:"m" xml:"m,attr"`     // 副露編號 35914
 
-	// 杠宝牌指示牌 tag=DORA
-	// `json:"hai"` // 杠宝牌指示牌 39
+	// 槓寶牌指示牌 tag=DORA
+	// `json:"hai"` // 槓寶牌指示牌 39
 
-	// 立直声明 tag=REACH, step=1
+	// 立直聲明 tag=REACH, step=1
 	// `json:"who"` // 立直者
 	Step string `json:"step" xml:"step,attr"` // 1
 
-	// 立直成功，扣1000点 tag=REACH, step=2
+	// 立直成功，扣1000點 tag=REACH, step=2
 	// `json:"who"` // 立直者
-	// `json:"ten"` // 立直成功后的各家点数 250,250,240,250
+	// `json:"ten"` // 立直成功後的各家點數 250,250,240,250
 	// `json:"step"` // 2
 
-	// 自摸/有人放铳 tag=牌, t>=8
-	T string `json:"t"` // 选项
+	// 自摸/有人放銃 tag=牌, t>=8
+	T string `json:"t"` // 選項
 
 	// 和牌 tag=AGARI
 	// ba, hai, m, machi, ten, yaku, doraHai, who, fromWho, sc
 	//Ba string `json:"ba"` // 0,0
 	// `json:"hai"` // 和牌型 8,9,11,14,19,125,126,127
-	// `json:"m"` // 副露编号 13527,50794
-	//Machi string `json:"machi"` // (待ち) 自摸/荣和的牌 126
-	// `json:"ten"` // 符数,点数,这张牌的来源 30,7700,0
-	//Yaku        string `json:"yaku"`       // 役（编号，翻数） 18,1,20,1,34,2
-	//DoraTile    string `json:"doraHai"`    // 宝牌 123
-	//UraDoraTile string `json:"doraHaiUra"` // 里宝牌 77
+	// `json:"m"` // 副露編號 13527,50794
+	//Machi string `json:"machi"` // (待ち) 自摸/榮和的牌 126
+	// `json:"ten"` // 符數,點數,這張牌的來源 30,7700,0
+	//Yaku        string `json:"yaku"`       // 役（編號，翻數） 18,1,20,1,34,2
+	//DoraTile    string `json:"doraHai"`    // 寶牌 123
+	//UraDoraTile string `json:"doraHaiUra"` // 裏寶牌 77
 	// `json:"who"` // 和牌者
-	//FromWho string `json:"fromWho"` // 自摸/荣和牌的来源
-	//Score   string `json:"sc"`      // 各家增减分 260,-77,310,77,220,0,210,0
+	//FromWho string `json:"fromWho"` // 自摸/榮和牌的來源
+	//Score   string `json:"sc"`      // 各家增減分 260,-77,310,77,220,0,210,0
 
-	// 游戏结束 tag=PROF
+	// 遊戲結束 tag=PROF
 
-	// 重连 tag=GO
+	// 重連 tag=GO
 	// type, lobby, gpid
 	//Type  string `json:"type"`
 	//Lobby string `json:"lobby"`
 	//GPID  string `json:"gpid"`
 
-	// 重连 tag=REINIT
+	// 重連 tag=REINIT
 	// `json:"seed"`
 	// `json:"ten"`
 	// `json:"oya"`
 	// `json:"hai"`
-	//Meld1    string `json:"m1"` // 各家副露编号 17450
+	//Meld1    string `json:"m1"` // 各家副露編號 17450
 	//Meld2    string `json:"m2"`
 	//Meld3    string `json:"m3"`
 	//Kawa0 string `json:"kawa0"` // 各家牌河 112,73,3,131,43,98,78,116
@@ -231,7 +231,7 @@ type tenhouRoundData struct {
 	originJSON string
 	msg        *tenhouMessage
 
-	isRoundEnd bool // 某人和牌或流局。初始值为 true
+	isRoundEnd bool // 某人和牌或流局。初始值為 true
 }
 
 func (*tenhouRoundData) _tenhouTileToTile34(tenhouTile int) int {
@@ -326,7 +326,7 @@ func (*tenhouRoundData) _parsePonOrKakan(data int) (meldType int, tenhouMeldTile
 		tenhouMeldTiles = []int{t0 + 4*base, t1 + 4*base, t2 + 4*base}
 		tenhouCalledTile = tenhouMeldTiles[called]
 	} else { // data&0x16 > 0
-		// 加杠
+		// 加槓
 		meldType = meldTypeKakan
 		tenhouMeldTiles = []int{t0 + 4*base, t1 + 4*base, t2 + 4*base, t4 + 4*base}
 		tenhouCalledTile = tenhouMeldTiles[3]
@@ -360,10 +360,10 @@ func (*tenhouRoundData) _parseKan(data int) (meldType int, tenhouMeldTiles []int
 	tenhouMeldTiles = []int{4 * base, 1 + 4*base, 2 + 4*base, 3 + 4*base}
 	tenhouCalledTile = tenhouMeldTiles[called]
 	if offsetFromWho := data & 0x3; offsetFromWho == 0 {
-		// 暗杠
+		// 暗槓
 		meldType = meldTypeAnkan
 	} else {
-		// 大明杠，offsetFromWho=1即为下家，=2为对家，=3为上家
+		// 大明槓，offsetFromWho=1即為下家，=2為對家，=3為上家
 		meldType = meldTypeMinkan
 	}
 	return
@@ -382,7 +382,7 @@ func (d *tenhouRoundData) _parseTenhouMeld(data string) (meldType int, tenhouMel
 		return d._parsePonOrKakan(bits)
 	case bits&0x20 > 0:
 		// 拔北
-		panic("[_parseTenhouMeld] 代码有误")
+		panic("[_parseTenhouMeld] 代碼有誤")
 	default:
 		return d._parseKan(bits)
 	}
@@ -414,12 +414,12 @@ func (d *tenhouRoundData) GetMessage() string {
 }
 
 func (d *tenhouRoundData) SkipMessage() bool {
-	// 注意：即使没有获取到用户名也能正常进行游戏
+	// 注意：即使沒有獲取到用戶名也能正常進行遊戲
 	return false
 }
 
 func (d *tenhouRoundData) IsLogin() bool {
-	// TODO: 重连时要填入 gameConf.currentActiveTenhouUsername
+	// TODO: 重連時要填入 gameConf.currentActiveTenhouUsername
 	return d.msg.Tag == "HELO"
 }
 
@@ -429,7 +429,7 @@ func (d *tenhouRoundData) HandleLogin() {
 		h.logError(err)
 	}
 	if username != gameConf.currentActiveTenhouUsername {
-		color.HiGreen("%s 登录成功", username)
+		color.HiGreen("%s 登錄成功", username)
 		gameConf.currentActiveTenhouUsername = username
 	}
 }
@@ -443,12 +443,12 @@ func (d *tenhouRoundData) ParseInit() (roundNumber int, benNumber int, dealer in
 
 	seedSplits := strings.Split(d.msg.Seed, ",")
 	if len(seedSplits) != 6 {
-		panic(fmt.Sprintln("seed 解析失败", d.msg.Seed))
+		panic(fmt.Sprintln("seed 解析失敗", d.msg.Seed))
 	}
 
 	roundNumber, _ = strconv.Atoi(seedSplits[0])
 	benNumber, _ = strconv.Atoi(seedSplits[1])
-	// TODO: 重构至 core。parser 不要修改任何东西
+	// TODO: 重構至 core。parser 不要修改任何東西
 	if roundNumber == 0 && benNumber == 0 {
 		if util.InStrings("0", strings.Split(d.msg.Ten, ",")) {
 			d.playerNumber = 3
@@ -496,7 +496,7 @@ func (d *tenhouRoundData) IsDiscard() bool {
 }
 
 func (d *tenhouRoundData) ParseDiscard() (who int, discardTile int, isRedFive bool, isTsumogiri bool, isReach bool, canBeMeld bool, kanDoraIndicator int) {
-	// D=自家, e/E=下家, f/F=对家, g/G=上家
+	// D=自家, e/E=下家, f/F=對家, g/G=上家
 	who = int(util.Lower(d.msg.Tag[0]) - 'd')
 	rawTile := d.msg.Tag[1:]
 	discardTile, isRedFive = d._parseTenhouTile(rawTile)
@@ -548,7 +548,7 @@ func (d *tenhouRoundData) ParseOpen() (who int, meld *model.Meld, kanDoraIndicat
 
 func (d *tenhouRoundData) IsReach() bool {
 	// Step == "1" 立直宣告
-	// Step == "2" 立直成功，扣1000点
+	// Step == "2" 立直成功，扣1000點
 	return d.msg.Tag == "REACH" && d.msg.Step == "1"
 }
 

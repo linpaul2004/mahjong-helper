@@ -44,9 +44,9 @@ const (
 	// Yaku based on terminal or honor tiles
 	YakuTanyao
 	YakuYakuhai
-	YakuChanta     // * 必须有顺子
-	YakuJunchan    // * 必须有顺子
-	YakuHonroutou  // 七对也算
+	YakuChanta     // * 必須有順子
+	YakuJunchan    // * 必須有順子
+	YakuHonroutou  // 七對也算
 	YakuShousangen
 
 	// Yaku based on suits
@@ -76,13 +76,13 @@ const (
 	YakuSanrenkou
 	YakuIsshokusanjun
 
-	// 古役役满
+	// 古役役滿
 	YakuDaisuurin
 	YakuDaisharin
 	YakuDaichikurin
 	YakuDaichisei
 
-	//_endYakuType  // 标记 enum 结束，方便计算有多少个 YakuType
+	//_endYakuType  // 標記 enum 結束，方便計算有多少個 YakuType
 )
 
 //const maxYakuType = _endYakuType
@@ -90,36 +90,36 @@ const (
 var YakuNameMap = map[int]string{
 	// Special criteria
 	YakuRiichi:  "立直",
-	YakuChiitoi: "七对",
+	YakuChiitoi: "七對",
 
 	// Yaku based on luck
 	YakuTsumo: "自摸",
-	//YakuIppatsu: "一发",
+	//YakuIppatsu: "一發",
 	//YakuHaitei:  "海底",
 	//YakuHoutei:  "河底",
-	//YakuRinshan: "岭上",
-	//YakuChankan: "抢杠",
+	//YakuRinshan: "嶺上",
+	//YakuChankan: "搶槓",
 	YakuDaburii: "w立",
 
 	// Yaku based on sequences
 	YakuPinfu:          "平和",
-	YakuRyanpeikou:     "两杯口",
-	YakuIipeikou:       "一杯口",
+	YakuRyanpeikou:     "兩盃口",
+	YakuIipeikou:       "一盃口",
 	YakuSanshokuDoujun: "三色",
-	YakuIttsuu:         "一通", // 一气
+	YakuIttsuu:         "一通", // 一氣
 
 	// Yaku based on triplets and/or quads
-	YakuToitoi:         "对对",
+	YakuToitoi:         "對對",
 	YakuSanAnkou:       "三暗刻",
 	YakuSanshokuDoukou: "三色同刻",
-	YakuSanKantsu:      "三杠子",
+	YakuSanKantsu:      "三槓子",
 
 	// Yaku based on terminal or honor tiles
-	YakuTanyao:     "断幺",
+	YakuTanyao:     "斷幺",
 	YakuYakuhai:    "役牌",
 	YakuChanta:     "混全",
-	YakuJunchan:    "纯全",
-	YakuHonroutou:  "混老头", // 七对也算
+	YakuJunchan:    "純全",
+	YakuHonroutou:  "混老頭", // 七對也算
 	YakuShousangen: "小三元",
 
 	// Yaku based on suits
@@ -127,38 +127,38 @@ var YakuNameMap = map[int]string{
 	YakuChinitsu: "清一色",
 
 	// Yakuman
-	//YakuKokushi:       "国士",
-	//YakuKokushi13:     "国士十三面",
+	//YakuKokushi:       "國士",
+	//YakuKokushi13:     "國士十三面",
 	YakuSuuAnkou:      "四暗刻",
-	YakuSuuAnkouTanki: "四暗刻单骑",
+	YakuSuuAnkouTanki: "四暗刻單騎",
 	YakuDaisangen:     "大三元",
 	YakuShousuushii:   "小四喜",
 	YakuDaisuushii:    "大四喜",
 	YakuTsuuiisou:     "字一色",
-	YakuChinroutou:    "清老头",
-	YakuRyuuiisou:     "绿一色",
-	YakuChuuren:       "九莲",
-	YakuChuuren9:      "纯正九莲",
-	YakuSuuKantsu:     "四杠子",
+	YakuChinroutou:    "清老頭",
+	YakuRyuuiisou:     "綠一色",
+	YakuChuuren:       "九蓮",
+	YakuChuuren9:      "純正九蓮",
+	YakuSuuKantsu:     "四槓子",
 	//YakuTenhou:        "天和",
 	//YakuChiihou:       "地和",
 }
 
 var OldYakuNameMap = map[int]string{
-	YakuShiiaruraotai: "十二落抬",
-	YakuUumensai:      "五门齐",
-	YakuSanrenkou:     "三连刻",
-	YakuIsshokusanjun: "一色三顺",
+	YakuShiiaruraotai: "十二落擡",
+	YakuUumensai:      "五門齊",
+	YakuSanrenkou:     "三連刻",
+	YakuIsshokusanjun: "一色三順",
 
-	YakuDaisuurin:   "大数邻",
-	YakuDaisharin:   "大车轮",
+	YakuDaisuurin:   "大數鄰",
+	YakuDaisharin:   "大車輪",
 	YakuDaichikurin: "大竹林",
 	YakuDaichisei:   "大七星",
 }
 
 func YakuTypesToStr(yakuTypes []int) string {
 	if len(yakuTypes) == 0 {
-		return "[无役]"
+		return "[無役]"
 	}
 	names := []string{}
 	for _, t := range yakuTypes {
@@ -180,7 +180,7 @@ func YakuTypesToStr(yakuTypes []int) string {
 
 func YakuTypesWithDoraToStr(yakuTypes map[int]struct{}, numDora int) string {
 	if len(yakuTypes) == 0 {
-		return "[无役]"
+		return "[無役]"
 	}
 	yt := []int{}
 	for t := range yakuTypes {
@@ -193,7 +193,7 @@ func YakuTypesWithDoraToStr(yakuTypes map[int]struct{}, numDora int) string {
 	}
 	// TODO: old yaku
 	if numDora > 0 {
-		names = append(names, fmt.Sprintf("宝牌%d", numDora))
+		names = append(names, fmt.Sprintf("寶牌%d", numDora))
 	}
 	return fmt.Sprint(names)
 }
@@ -269,13 +269,13 @@ var OldYakuHanMap = _yakuHanMap{
 }
 
 var OldNakiYakuHanMap = _yakuHanMap{
-	YakuShiiaruraotai: 1, // 四副露大吊车
+	YakuShiiaruraotai: 1, // 四副露大吊車
 	YakuUumensai:      2,
 	YakuSanrenkou:     2,
 	YakuIsshokusanjun: 2,
 }
 
-// 计算 yakuTypes(非役满) 累积的番数
+// 計算 yakuTypes(非役滿) 累積的番數
 func CalcYakuHan(yakuTypes []int, isNaki bool) (cntHan int) {
 	var yakuHanMap _yakuHanMap
 	if !isNaki {
@@ -341,10 +341,10 @@ var OldYakumanTimesMap = map[int]int{
 	YakuDaisuurin:   1,
 	YakuDaisharin:   1,
 	YakuDaichikurin: 1,
-	YakuDaichisei:   1, // 复合字一色，实际为两倍役满
+	YakuDaichisei:   1, // 複合字一色，實際為兩倍役滿
 }
 
-// 计算役满倍数
+// 計算役滿倍數
 func CalcYakumanTimes(yakuTypes []int, isNaki bool) (times int) {
 	var yakumanTimesMap _yakumanTimesMap
 	if !isNaki {

@@ -4,8 +4,8 @@ import (
 	"encoding/xml"
 )
 
-// 需要注意的是，牌谱并未记录舍牌是手切还是摸切，
-// 这里认为在摸牌后，只要切出的牌和摸的牌相同就认为是摸切，否则认为是手切
+// 需要注意的是，牌譜並未記錄捨牌是手切還是摸切，
+// 這裏認為在摸牌後，只要切出的牌和摸的牌相同就認為是摸切，否則認為是手切
 type RecordAction struct {
 	XMLName xml.Name
 	message
@@ -13,7 +13,7 @@ type RecordAction struct {
 
 func (a *RecordAction) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	a.Tag = start.Name.Local
-	type action RecordAction // 防止无限递归
+	type action RecordAction // 防止無限遞歸
 	return d.DecodeElement((*action)(a), &start)
 }
 

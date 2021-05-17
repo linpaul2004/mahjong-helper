@@ -115,7 +115,7 @@ func (c *converter) parseFields(rawFields map[string]interface{}) error {
 	for k, v := range rawFields {
 		_v, ok := v.(map[string]interface{})
 		if !ok {
-			return fmt.Errorf("parseFields 解析 %s 失败", k)
+			return fmt.Errorf("parseFields 解析 %s 失敗", k)
 		}
 		fields = append(fields, field{
 			id:    int(_v["id"].(float64)),
@@ -142,7 +142,7 @@ func (c *converter) parseMethods(methods map[string]interface{}) (rpcMethods []*
 	for _, methodName := range methodNames {
 		method, ok := methods[methodName].(map[string]interface{})
 		if !ok {
-			return nil, fmt.Errorf("parseMethods 解析 %s 失败", methodName)
+			return nil, fmt.Errorf("parseMethods 解析 %s 失敗", methodName)
 		}
 		m := rpcMethod{
 			name:         methodName,
@@ -217,7 +217,7 @@ func (c *converter) LiqiJsonToProto3(liqiJsonContent []byte) (protoContent []byt
 	items := lq.Nested.LQ.Nested
 	names := c.sortedKeys(items)
 
-	// 先处理 service 和 enum
+	// 先處理 service 和 enum
 	for _, name := range names {
 		if methods, ok := items[name]["methods"]; ok {
 			c.startDefine("service", name)

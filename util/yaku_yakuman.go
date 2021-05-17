@@ -1,21 +1,21 @@
 package util
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) suuAnkou() bool {
 	if hi.WinTile == hi.divideResult.PairTile {
 		return false
 	}
-	// 非单骑和牌
+	// 非單騎和牌
 	n, _ := hi.numAnkou()
 	return n == 4
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) suuAnkouTanki() bool {
 	if hi.WinTile != hi.divideResult.PairTile {
 		return false
 	}
-	// 单骑和牌
+	// 單騎和牌
 	n, _ := hi.numAnkou()
 	return n == 4
 }
@@ -107,10 +107,10 @@ func (hi *_handInfo) ryuuiisou() bool {
 	return true
 }
 
-// 调用前已经不是七对了
+// 調用前已經不是七對了
 func (hi *_handInfo) _isChuuren9() bool {
-	// 去掉 WinTile 后，剩余的牌必须是 1112345678999
-	// 也就是说，hi.HandTiles34[hi.WinTile] 多出的那一枚必须正好是 WinTile
+	// 去掉 WinTile 後，剩餘的牌必須是 1112345678999
+	// 也就是說，hi.HandTiles34[hi.WinTile] 多出的那一枚必須正好是 WinTile
 	tileType := hi.WinTile / 9
 	tiles34 := hi.HandTiles34
 	idx := 9 * tileType
@@ -129,12 +129,12 @@ func (hi *_handInfo) _isChuuren9() bool {
 	return false
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) chuuren() bool {
 	return hi.divideResult.IsChuurenPoutou && !hi._isChuuren9()
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) chuuren9() bool {
 	return hi.divideResult.IsChuurenPoutou && hi._isChuuren9()
 }
@@ -168,22 +168,22 @@ func (*_handInfo) checkAllPairs(tiles []int) bool {
 	return true
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) daisuurin() bool {
 	return hi.checkAllPairs(hi.HandTiles34[1:8])
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) daisharin() bool {
 	return hi.checkAllPairs(hi.HandTiles34[9+1 : 9+8])
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) daichikurin() bool {
 	return hi.checkAllPairs(hi.HandTiles34[18+1 : 18+8])
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) daichisei() bool {
 	return hi.checkAllPairs(hi.HandTiles34[27:])
 }
@@ -195,9 +195,9 @@ var oldYakumanCheckerMap = map[int]yakuChecker{
 	YakuDaichisei:   (*_handInfo).daichisei,
 }
 
-// 检测役满
-// 结果未排序
-// *计算前必须设置顺子牌和刻子牌
+// 檢測役滿
+// 結果未排序
+// *計算前必須設置順子牌和刻子牌
 func findYakumanTypes(hi *_handInfo, isNaki bool) (yakumanTypes []int) {
 	var yakumanTimesMap _yakumanTimesMap
 	if !isNaki {

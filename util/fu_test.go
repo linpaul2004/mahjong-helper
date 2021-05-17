@@ -29,7 +29,7 @@ func Test_handInfo_calcFu(t *testing.T) {
 		return
 	}
 
-	// 七对
+	// 七對
 	assert.EqualValues([]int{25}, fuList("33m 112233445566z", "3m", true))
 	assert.EqualValues([]int{25}, fuList("33m 112233445566z", "3m", false))
 
@@ -39,16 +39,16 @@ func Test_handInfo_calcFu(t *testing.T) {
 	assert.EqualValues([]int{30}, fuList("345m 345s 334455p 44z", "3m", false))
 	assert.EqualValues([]int{30}, fuList("33345m 345s 345789p", "3m", false))
 
-	// 20 + 中张暗刻4 + 连风4 + 自摸2
+	// 20 + 中張暗刻4 + 連風4 + 自摸2
 	assert.EqualValues([]int{30}, fuList("345m 222s 334455p 11z", "3m", true))
 
-	// 20 + 中张暗刻4 + 连风4 + 自摸2 + 坎张2（刚好跳符）
+	// 20 + 中張暗刻4 + 連風4 + 自摸2 + 坎張2（剛好跳符）
 	assert.EqualValues([]int{40}, fuList("234m 222s 334455p 11z", "3m", true))
 
-	// 20 + 中张暗刻4 + 连风4 + 自摸2 + 边张2（刚好跳符）
+	// 20 + 中張暗刻4 + 連風4 + 自摸2 + 邊張2（剛好跳符）
 	assert.EqualValues([]int{40}, fuList("123m 222s 334455p 11z", "3m", true))
 
-	// 平和 / 坎张
+	// 平和 / 坎張
 	assert.EqualValues([]int{20, 30}, fuList("22334455m 234s 234p", "3m", true))
 	assert.EqualValues([]int{30, 40}, fuList("22334455m 234s 234p", "3m", false))
 
@@ -56,21 +56,21 @@ func Test_handInfo_calcFu(t *testing.T) {
 	assert.EqualValues([]int{30}, fuList("345m 345s 345p 44z # 567m", "3m", true))
 	assert.EqualValues([]int{30}, fuList("345m 345s 345p 44z # 567m", "3m", false))
 
-	// 副露坎张
+	// 副露坎張
 	assert.EqualValues([]int{30}, fuList("345m 345s 345p 44z # 567m", "3m", true))
 	assert.EqualValues([]int{30}, fuList("345m 345s 345p 44z # 567m", "3m", false))
 
-	// 暗杠
+	// 暗槓
 	assert.EqualValues([]int{70}, fuList("123456m 678s 11p # 1111S", "6s", false))
 	assert.EqualValues([]int{60}, fuList("123m 678s 11p # 456m 1111S", "6s", false))
 
-	// 明杠 + 明刻 + 暗刻
+	// 明槓 + 明刻 + 暗刻
 	assert.EqualValues([]int{50}, fuList("123p 66677z # 8888p 999m", "3p", true))
 
 	// (1番)110 符
 	assert.EqualValues([]int{110}, fuList("234s 11777z # 1111M 9999P", "7z", false))
 
-	// 青天井规则下的 170 符（四杠子 四暗刻单骑）
+	// 青天井規則下的 170 符（四槓子 四暗刻單騎）
 	assert.EqualValues([]int{170}, fuList("77z # 1111S 9999P 1111M 9999M", "7z", false))
 }
 

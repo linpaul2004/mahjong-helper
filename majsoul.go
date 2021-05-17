@@ -11,43 +11,43 @@ import (
 )
 
 type majsoulMessage struct {
-	// 对应到服务器用户数据库中的ID，该值越小表示您的注册时间越早
+	// 對應到服務器用戶數據庫中的ID，該值越小表示您的註冊時間越早
 	AccountID int `json:"account_id"`
 
 	// 友人列表
 	Friends lq.FriendList `json:"friends"`
 
-	// 新获取到的牌谱基本信息列表
+	// 新獲取到的牌譜基本信息列表
 	RecordBaseInfoList []*majsoulRecordBaseInfo `json:"record_list"`
 
-	// 分享的牌谱基本信息
+	// 分享的牌譜基本信息
 	SharedRecordBaseInfo *majsoulRecordBaseInfo `json:"shared_record_base_info"`
 
-	// 当前正在观看的牌谱的 UUID
+	// 當前正在觀看的牌譜的 UUID
 	CurrentRecordUUID string `json:"current_record_uuid"`
 
-	// 当前正在观看的牌谱的全部操作
+	// 當前正在觀看的牌譜的全部操作
 	RecordActions []*majsoulRecordAction `json:"record_actions"`
 
-	// 玩家在网页上的（点击）操作（网页响应了的）
+	// 玩家在網頁上的（點擊）操作（網頁響應了的）
 	RecordClickAction      string `json:"record_click_action"`
 	RecordClickActionIndex int    `json:"record_click_action_index"`
-	FastRecordTo           int    `json:"fast_record_to"` // 闭区间
+	FastRecordTo           int    `json:"fast_record_to"` // 閉區間
 
-	// 观战
+	// 觀戰
 	LiveBaseInfo   *majsoulLiveRecordBaseInfo `json:"live_head"`
 	LiveFastAction *majsoulRecordAction       `json:"live_fast_action"`
 	LiveAction     *majsoulRecordAction       `json:"live_action"`
 
-	// 座位变更
+	// 座位變更
 	ChangeSeatTo *int `json:"change_seat_to"`
 
-	// 游戏重连时收到的数据
+	// 遊戲重連時收到的數據
 	SyncGameActions []*majsoulRecordAction `json:"sync_game_actions"`
 
 	// ResAuthGame
 	// {"seat_list":[x,x,x,x],"is_game_start":false,"game_config":{"category":1,"mode":{"mode":1,"ai":true,"detail_rule":{"time_fixed":60,"time_add":0,"dora_count":3,"shiduan":1,"init_point":25000,"fandian":30000,"bianjietishi":true,"ai_level":1,"fanfu":1}},"meta":{"room_id":18269}},"ready_id_list":[0,0,0]}
-	IsGameStart *bool              `json:"is_game_start"` // false=新游戏，true=重连
+	IsGameStart *bool              `json:"is_game_start"` // false=新遊戲，true=重連
 	SeatList    []int              `json:"seat_list"`
 	ReadyIDList []int              `json:"ready_id_list"`
 	GameConfig  *majsoulGameConfig `json:"game_config"`
@@ -61,7 +61,7 @@ type majsoulMessage struct {
 	Chang *int        `json:"chang"`
 	Ju    *int        `json:"ju"`
 	Ben   *int        `json:"ben"`
-	Tiles interface{} `json:"tiles"` // 一般情况下为 []interface{}, interface{} 即 string，但是暗杠的情况下，该值为一个 string
+	Tiles interface{} `json:"tiles"` // 一般情況下為 []interface{}, interface{} 即 string，但是暗槓的情況下，該值為一個 string
 	Dora  string      `json:"dora"`
 
 	// RecordNewRound
@@ -72,11 +72,11 @@ type majsoulMessage struct {
 
 	// ActionDealTile
 	// {"seat":1,"tile":"5m","left_tile_count":23,"operation":{"seat":1,"operation_list":[{"type":1}],"time_add":0,"time_fixed":60000},"zhenting":false}
-	// 他家暗杠后的摸牌
+	// 他家暗槓後的摸牌
 	// {"seat":1,"left_tile_count":3,"doras":["7m","0p"],"zhenting":false}
 	Seat          *int     `json:"seat"`
 	Tile          string   `json:"tile"`
-	Doras         []string `json:"doras"` // 暗杠摸牌了，同时翻出杠宝牌指示牌
+	Doras         []string `json:"doras"` // 暗槓摸牌了，同時翻出槓寶牌指示牌
 	LeftTileCount *int     `json:"left_tile_count"`
 
 	// ActionDiscardTile
@@ -92,9 +92,9 @@ type majsoulMessage struct {
 	// ActionChiPengGang || ActionAnGangAddGang
 	// 他家吃 {"seat":0,"type":0,"tiles":["2s","3s","4s"],"froms":[0,0,3],"zhenting":false}
 	// 他家碰 {"seat":1,"type":1,"tiles":["1z","1z","1z"],"froms":[1,1,0],"operation":{"seat":1,"operation_list":[{"type":1,"combination":["1z"]}],"time_add":0,"time_fixed":60000},"zhenting":false,"tingpais":[{"tile":"4m","zhenting":false,"infos":[{"tile":"6s","haveyi":true},{"tile":"6p","haveyi":true}]},{"tile":"7m","zhenting":false,"infos":[{"tile":"6s","haveyi":true},{"tile":"6p","haveyi":true}]}]}
-	// 他家大明杠 {"seat":2,"type":2,"tiles":["3z","3z","3z","3z"],"froms":[2,2,2,0],"zhenting":false}
-	// 他家加杠 {"seat":2,"type":2,"tiles":"3z"}
-	// 他家暗杠 {"seat":2,"type":3,"tiles":"3s"}
+	// 他家大明槓 {"seat":2,"type":2,"tiles":["3z","3z","3z","3z"],"froms":[2,2,2,0],"zhenting":false}
+	// 他家加槓 {"seat":2,"type":2,"tiles":"3z"}
+	// 他家暗槓 {"seat":2,"type":3,"tiles":"3s"}
 	Type  int   `json:"type"`
 	Froms []int `json:"froms"`
 
@@ -131,7 +131,7 @@ type majsoulRoundData struct {
 	originJSON string
 	msg        *majsoulMessage
 
-	selfSeat int // 自家初始座位：0-第一局的东家 1-第一局的南家 2-第一局的西家 3-第一局的北家
+	selfSeat int // 自家初始座位：0-第一局的東家 1-第一局的南家 2-第一局的西家 3-第一局的北家
 }
 
 func (d *majsoulRoundData) fatalParse(info string, msg string) {
@@ -143,7 +143,7 @@ func (d *majsoulRoundData) normalTiles(tiles interface{}) (majsoulTiles []string
 	if !ok {
 		_tile, ok := tiles.(string)
 		if !ok {
-			panic(fmt.Sprintln("[normalTiles] 解析错误", tiles))
+			panic(fmt.Sprintln("[normalTiles] 解析錯誤", tiles))
 		}
 		return []string{_tile}
 	}
@@ -152,7 +152,7 @@ func (d *majsoulRoundData) normalTiles(tiles interface{}) (majsoulTiles []string
 	for i, _tile := range _tiles {
 		_t, ok := _tile.(string)
 		if !ok {
-			panic(fmt.Sprintln("[normalTiles] 解析错误", tiles))
+			panic(fmt.Sprintln("[normalTiles] 解析錯誤", tiles))
 		}
 		majsoulTiles[i] = _t
 	}
@@ -160,8 +160,8 @@ func (d *majsoulRoundData) normalTiles(tiles interface{}) (majsoulTiles []string
 }
 
 func (d *majsoulRoundData) parseWho(seat int) int {
-	// 转换成 0=自家, 1=下家, 2=对家, 3=上家
-	// 对三麻四麻均适用
+	// 轉換成 0=自家, 1=下家, 2=對家, 3=上家
+	// 對三麻四麻均適用
 	who := (seat + d.dealer - d.roundNumber%4 + 4) % 4
 	return who
 }
@@ -205,25 +205,25 @@ func (d *majsoulRoundData) GetMessage() string {
 func (d *majsoulRoundData) SkipMessage() bool {
 	msg := d.msg
 
-	// 没有账号 skip
+	// 沒有帳號 skip
 	if gameConf.currentActiveMajsoulAccountID == -1 {
 		return true
 	}
 
-	// TODO: 重构
+	// TODO: 重構
 	if msg.SeatList != nil {
 		// 特判古役模式
 		isGuyiMode := msg.GameConfig.isGuyiMode()
 		util.SetConsiderOldYaku(isGuyiMode)
 		if isGuyiMode {
-			color.HiGreen("古役模式已开启")
+			color.HiGreen("古役模式已開啟")
 			time.Sleep(2 * time.Second)
 		}
 	} else {
-		// msg.SeatList 必须为 nil
+		// msg.SeatList 必須為 nil
 		if msg.ReadyIDList != nil {
-			// 打印准备信息
-			fmt.Printf("等待玩家准备 (%d/%d) %v\n", len(msg.ReadyIDList), d.playerNumber, msg.ReadyIDList)
+			// 打印準備信息
+			fmt.Printf("等待玩家準備 (%d/%d) %v\n", len(msg.ReadyIDList), d.playerNumber, msg.ReadyIDList)
 		}
 	}
 
@@ -247,12 +247,12 @@ func (d *majsoulRoundData) HandleLogin() {
 		return
 	}
 
-	// 从对战 ID 列表中获取账号 ID
+	// 從對戰 ID 列表中獲取帳號 ID
 	if seatList := msg.SeatList; seatList != nil {
-		// 尝试从中找到缓存账号 ID
+		// 嘗試從中找到緩存帳號 ID
 		for _, accountID := range seatList {
 			if accountID > 0 && gameConf.isIDExist(accountID) {
-				// 找到了，更新当前使用的账号 ID
+				// 找到了，更新當前使用的帳號 ID
 				if gameConf.currentActiveMajsoulAccountID != accountID {
 					printAccountInfo(accountID)
 					gameConf.setMajsoulAccountID(accountID)
@@ -261,13 +261,13 @@ func (d *majsoulRoundData) HandleLogin() {
 			}
 		}
 
-		// 未找到缓存 ID
+		// 未找到緩存 ID
 		if gameConf.currentActiveMajsoulAccountID > 0 {
-			color.HiRed("尚未获取到您的账号 ID，请您刷新网页，或开启一局人机对战（错误信息：您的账号 ID %d 不在对战列表 %v 中）", gameConf.currentActiveMajsoulAccountID, msg.SeatList)
+			color.HiRed("尚未獲取到您的帳號 ID，請您刷新網頁，或開啟一局人機對戰（錯誤信息：您的帳號 ID %d 不在對戰列表 %v 中）", gameConf.currentActiveMajsoulAccountID, msg.SeatList)
 			return
 		}
 
-		// 判断是否为人机对战，若为人机对战，则获取账号 ID
+		// 判斷是否為人機對戰，若為人機對戰，則獲取帳號 ID
 		if !util.InInts(0, msg.SeatList) {
 			return
 		}
@@ -293,14 +293,14 @@ func (d *majsoulRoundData) ParseInit() (roundNumber int, benNumber int, dealer i
 
 	if playerNumber := len(msg.SeatList); playerNumber >= 3 {
 		d.playerNumber = playerNumber
-		// 获取自家初始座位：0-第一局的东家 1-第一局的南家 2-第一局的西家 3-第一局的北家
+		// 獲取自家初始座位：0-第一局的東家 1-第一局的南家 2-第一局的西家 3-第一局的北家
 		for i, accountID := range msg.SeatList {
 			if accountID == gameConf.currentActiveMajsoulAccountID {
 				d.selfSeat = i
 				break
 			}
 		}
-		// dealer: 0=自家, 1=下家, 2=对家, 3=上家
+		// dealer: 0=自家, 1=下家, 2=對家, 3=上家
 		dealer = (4 - d.selfSeat) % 4
 		return
 	} else if len(msg.Tiles2) > 0 {
@@ -326,9 +326,9 @@ func (d *majsoulRoundData) ParseInit() (roundNumber int, benNumber int, dealer i
 	numRedFives = make([]int, 3)
 
 	var majsoulTiles []string
-	if msg.Tiles != nil { // 实战
+	if msg.Tiles != nil { // 實戰
 		majsoulTiles = d.normalTiles(msg.Tiles)
-	} else { // 牌谱、观战
+	} else { // 牌譜、觀戰
 		majsoulTiles = [][]string{msg.Tiles0, msg.Tiles1, msg.Tiles2, msg.Tiles3}[d.selfSeat]
 	}
 	for _, majsoulTile := range majsoulTiles {
@@ -370,10 +370,10 @@ func (d *majsoulRoundData) ParseDiscard() (who int, discardTile int, isRedFive b
 	discardTile, isRedFive = d.mustParseMajsoulTile(msg.Tile)
 	isTsumogiri = *msg.Moqie
 	isReach = *msg.IsLiqi
-	if msg.IsWliqi != nil && !isReach { // 兼容雀魂早期牌谱（无 IsWliqi 字段）
+	if msg.IsWliqi != nil && !isReach { // 兼容雀魂早期牌譜（無 IsWliqi 字段）
 		isReach = *msg.IsWliqi
 	}
-	canBeMeld = msg.Operation != nil // 注意：观战模式下无此选项
+	canBeMeld = msg.Operation != nil // 注意：觀戰模式下無此選項
 	kanDoraIndicator = -1
 	if d.isNewDora(msg.Doras) {
 		kanDoraIndicator, _ = d.mustParseMajsoulTile(msg.Doras[len(msg.Doras)-1])
@@ -393,14 +393,14 @@ func (d *majsoulRoundData) ParseOpen() (who int, meld *model.Meld, kanDoraIndica
 	who = d.parseWho(*msg.Seat)
 
 	kanDoraIndicator = -1
-	if d.isNewDora(msg.Doras) { // 暗杠（有时会在玩家摸牌后才发送 doras，可能是因为需要考虑抢暗杠的情况）
+	if d.isNewDora(msg.Doras) { // 暗槓（有時會在玩家摸牌後才發送 doras，可能是因為需要考慮搶暗槓的情況）
 		kanDoraIndicator, _ = d.mustParseMajsoulTile(msg.Doras[len(msg.Doras)-1])
 	}
 
 	var meldType, calledTile int
 
 	majsoulTiles := d.normalTiles(msg.Tiles)
-	isSelfKan := len(majsoulTiles) == 1 // 自家加杠或暗杠
+	isSelfKan := len(majsoulTiles) == 1 // 自家加槓或暗槓
 	if isSelfKan {
 		majsoulTile := majsoulTiles[0]
 		majsoulTiles = []string{majsoulTile, majsoulTile, majsoulTile, majsoulTile}
@@ -408,18 +408,18 @@ func (d *majsoulRoundData) ParseOpen() (who int, meld *model.Meld, kanDoraIndica
 	meldTiles, numRedFive := d.mustParseMajsoulTiles(majsoulTiles)
 	containRedFive := numRedFive > 0
 	if len(majsoulTiles) == 4 && meldTiles[0] < 27 && meldTiles[0]%9 == 4 {
-		// 杠5意味着一定有赤5
+		// 槓5意味著一定有赤5
 		containRedFive = true
 	}
 
 	if isSelfKan {
 		calledTile = meldTiles[0]
-		// 用 msg.Type 判断是加杠还是暗杠
-		// 也可以通过是否有相关碰副露来判断是加杠还是暗杠
+		// 用 msg.Type 判斷是加槓還是暗槓
+		// 也可以通過是否有相關碰副露來判斷是加槓還是暗槓
 		if msg.Type == majsoulMeldTypeMinkanOrKakan {
-			meldType = meldTypeKakan // 加杠
+			meldType = meldTypeKakan // 加槓
 		} else if msg.Type == majsoulMeldTypeAnkan {
-			meldType = meldTypeAnkan // 暗杠
+			meldType = meldTypeAnkan // 暗槓
 		}
 		meld = &model.Meld{
 			MeldType:       meldType,
@@ -438,7 +438,7 @@ func (d *majsoulRoundData) ParseOpen() (who int, meld *model.Meld, kanDoraIndica
 		}
 	}
 	if rawCalledTile == "" {
-		panic("数据解析异常: 未找到 rawCalledTile")
+		panic("數據解析異常: 未找到 rawCalledTile")
 	}
 	calledTile, redFiveFromOthers := d.mustParseMajsoulTile(rawCalledTile)
 
@@ -450,9 +450,9 @@ func (d *majsoulRoundData) ParseOpen() (who int, meld *model.Meld, kanDoraIndica
 			sort.Ints(meldTiles)
 		}
 	} else if len(meldTiles) == 4 {
-		meldType = meldTypeMinkan // 大明杠
+		meldType = meldTypeMinkan // 大明槓
 	} else {
-		panic("鸣牌数据解析失败！")
+		panic("鳴牌數據解析失敗！")
 	}
 	meld = &model.Meld{
 		MeldType:          meldType,
@@ -496,7 +496,7 @@ func (d *majsoulRoundData) ParseRoundWin() (whos []int, points []int) {
 				point = result.PointZimoQin + 2*result.PointZimoXian
 			}
 			if d.playerNumber == 3 {
-				// 自摸损（一个子家）
+				// 自摸損（一個子家）
 				point -= result.PointZimoXian
 			}
 		}
@@ -516,7 +516,7 @@ func (d *majsoulRoundData) ParseRyuukyoku() (type_ int, whos []int, points []int
 	return
 }
 
-// 拔北宝牌
+// 拔北寶牌
 func (d *majsoulRoundData) IsNukiDora() bool {
 	msg := d.msg
 	// ActionBaBei RecordBaBei
@@ -528,7 +528,7 @@ func (d *majsoulRoundData) ParseNukiDora() (who int, isTsumogiri bool) {
 	return d.parseWho(*msg.Seat), *msg.Moqie
 }
 
-// 在最后处理该项
+// 在最後處理該項
 func (d *majsoulRoundData) IsNewDora() bool {
 	msg := d.msg
 	// ActionDealTile

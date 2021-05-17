@@ -50,7 +50,7 @@ func TestCalcPointTsumoSum(t *testing.T) {
 func TestCalcRonPointWithHands(t *testing.T) {
 	assert := assert.New(t)
 
-	// 子家默听荣和
+	// 子家默聽榮和
 	newPIWithWinTile := func(humanTiles string, winHumanTile string) *model.PlayerInfo {
 		return &model.PlayerInfo{
 			HandTiles34:   MustStrToTiles34(humanTiles),
@@ -59,23 +59,23 @@ func TestCalcRonPointWithHands(t *testing.T) {
 			SelfWindTile:  MustStrToTile34("2z"),
 		}
 	}
-	assert.Equal(12000, CalcPoint(newPIWithWinTile("11m 112233445566z", "1m")).Point)    // [七对 混老头 混一色]
-	assert.Equal(7700, CalcPoint(newPIWithWinTile("345m 345s 334455p 44z", "3m")).Point) // [平和 一杯口 三色]
+	assert.Equal(12000, CalcPoint(newPIWithWinTile("11m 112233445566z", "1m")).Point)    // [七對 混老頭 混一色]
+	assert.Equal(7700, CalcPoint(newPIWithWinTile("345m 345s 334455p 44z", "3m")).Point) // [平和 一盃口 三色]
 	assert.Equal(2600, CalcPoint(newPIWithWinTile("333m 333s 333345p 11z", "3m")).Point) // [三色同刻]
-	assert.Equal(8000, CalcPoint(newPIWithWinTile("22334455m 234s 234p", "3m")).Point)   // 高点法取[一杯口 三色 断幺]
+	assert.Equal(8000, CalcPoint(newPIWithWinTile("22334455m 234s 234p", "3m")).Point)   // 高點法取[一盃口 三色 斷幺]
 	assert.Equal(12000, CalcPoint(newPIWithWinTile("234m 333p 55666777z", "3m")).Point)  // [三暗刻 役牌 役牌 小三元]
-	assert.Equal(12000, CalcPoint(newPIWithWinTile("123445566789m 11z", "3m")).Point)    // [一杯口 一气 混一色]
+	assert.Equal(12000, CalcPoint(newPIWithWinTile("123445566789m 11z", "3m")).Point)    // [一盃口 一氣 混一色]
 	assert.Equal(3200, CalcPoint(newPIWithWinTile("123m 123999s 11155z", "3m")).Point)   // [混全]
-	assert.Equal(5200, CalcPoint(newPIWithWinTile("334455m 667788s 77z", "3m")).Point)   // [两杯口]
-	assert.Equal(7700, CalcPoint(newPIWithWinTile("334455m 667788s 44z", "3m")).Point)   // [平和 两杯口]
-	assert.Equal(5200, CalcPoint(newPIWithWinTile("123m 123999s 11789p", "3m")).Point)   // [纯全]
+	assert.Equal(5200, CalcPoint(newPIWithWinTile("334455m 667788s 77z", "3m")).Point)   // [兩盃口]
+	assert.Equal(7700, CalcPoint(newPIWithWinTile("334455m 667788s 44z", "3m")).Point)   // [平和 兩盃口]
+	assert.Equal(5200, CalcPoint(newPIWithWinTile("123m 123999s 11789p", "3m")).Point)   // [純全]
 	assert.Equal(2600, CalcPoint(newPIWithWinTile("345m 12355789s 222z", "3m")).Point)   // [役牌 役牌]
-	// 役满
+	// 役滿
 	assert.Equal(32000, CalcPoint(newPIWithWinTile("11122345678999m", "3m")).Point)
 	assert.Equal(64000, CalcPoint(newPIWithWinTile("11122345678999m", "2m")).Point)
 	assert.Equal(160000, CalcPoint(newPIWithWinTile("11122233344455z", "5z")).Point)
 
-	// 子家立直荣和
+	// 子家立直榮和
 	newPIWithRiichi := func(humanTiles string, winHumanTile string) *model.PlayerInfo {
 		return &model.PlayerInfo{
 			HandTiles34:   MustStrToTiles34(humanTiles),
@@ -87,7 +87,7 @@ func TestCalcRonPointWithHands(t *testing.T) {
 	}
 	assert.Equal(1300, CalcPoint(newPIWithRiichi("345m 222789p 333s 66z", "3m")).Point) // [立直]
 
-	// 子家立直荣和，带宝牌
+	// 子家立直榮和，帶寶牌
 	ronPoints := []int{}
 	for doraCount := 0; doraCount < 13; doraCount++ {
 		ronPoint := CalcPoint(&model.PlayerInfo{
@@ -102,7 +102,7 @@ func TestCalcRonPointWithHands(t *testing.T) {
 	}
 	assert.Equal(ronPoints, []int{1300, 2600, 5200, 8000, 8000, 12000, 12000, 16000, 16000, 16000, 24000, 24000, 32000})
 
-	// 亲家立直荣和，带宝牌
+	// 親家立直榮和，帶寶牌
 	ronPoints = []int{}
 	for doraCount := 0; doraCount < 13; doraCount++ {
 		ronPoint := CalcPoint(&model.PlayerInfo{
@@ -122,7 +122,7 @@ func TestCalcRonPointWithHands(t *testing.T) {
 
 	first := func(a float64, _ ... interface{}) float64 { return a }
 
-	// 立直时的平均打点
+	// 立直時的平均打點
 	newPIWithWaits := func(humanTiles string) (model.PlayerInfo, Waits) {
 		tiles34 := MustStrToTiles34(humanTiles)
 		_, waits := CalculateShantenAndWaits13(tiles34, nil)
@@ -136,7 +136,7 @@ func TestCalcRonPointWithHands(t *testing.T) {
 	assert.InDelta(7500, first(CalcAvgRiichiPoint(newPIWithWaits("13m 123567p 12355s"))), eps)   // 立直三色
 	assert.InDelta(4291, first(CalcAvgRiichiPoint(newPIWithWaits("12366m 234p 345s 55z"))), eps) // 立直白
 
-	// 振听立直时的平均打点
+	// 振聽立直時的平均打點
 	newFuritenPIWithWaits := func(humanTiles string, humanDiscardTiles string) (model.PlayerInfo, Waits) {
 		tiles34 := MustStrToTiles34(humanTiles)
 		_, waits := CalculateShantenAndWaits13(tiles34, nil)

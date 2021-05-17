@@ -21,10 +21,10 @@ var MahjongU = [...]string{
 }
 
 var MahjongZH = [...]string{
-	"1万", "2万", "3万", "4万", "5万", "6万", "7万", "8万", "9万",
-	"1饼", "2饼", "3饼", "4饼", "5饼", "6饼", "7饼", "8饼", "9饼",
+	"1萬", "2萬", "3萬", "4萬", "5萬", "6萬", "7萬", "8萬", "9萬",
+	"1餅", "2餅", "3餅", "4餅", "5餅", "6餅", "7餅", "8餅", "9餅",
 	"1索", "2索", "3索", "4索", "5索", "6索", "7索", "8索", "9索",
-	"东", "南", "西", "北", "白", "发", "中",
+	"東", "南", "西", "北", "白", "發", "中",
 }
 
 var YaochuTiles = [...]int{0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33}
@@ -43,8 +43,8 @@ func TilesToMahjongZHInterface(tiles []int) (words []interface{}) {
 	return
 }
 
-// 进张
-// map[进张牌]剩余数
+// 進張
+// map[進張牌]剩餘數
 type Waits map[int]int
 
 func (w Waits) AllCount() (count int) {
@@ -54,7 +54,7 @@ func (w Waits) AllCount() (count int) {
 	return count
 }
 
-// 剩余数不为零的进张
+// 剩餘數不為零的進張
 func (w Waits) AvailableTiles() []int {
 	if len(w) == 0 {
 		return nil
@@ -123,7 +123,7 @@ func (w Waits) tilesZH() []string {
 }
 
 func (w Waits) String() string {
-	return fmt.Sprintf("%d 进张 %s", w.AllCount(), TilesToStrWithBracket(w.indexes()))
+	return fmt.Sprintf("%d 進張 %s", w.AllCount(), TilesToStrWithBracket(w.indexes()))
 }
 
 func (w Waits) Equals(w1 Waits) bool {
@@ -159,7 +159,7 @@ func isYaochupai(tile int) bool {
 	return t == 0 || t == 8
 }
 
-// tiles34 为 13 张牌，判断 tile 若置于 tiles34 中是否是孤张
+// tiles34 為 13 張牌，判斷 tile 若置於 tiles34 中是否是孤張
 func isIsolatedTile(tile int, tiles34 []int) bool {
 	if tile >= 27 {
 		return tiles34[tile] == 0
@@ -175,7 +175,7 @@ func isIsolatedTile(tile int, tiles34 []int) bool {
 	return true
 }
 
-// 计算手牌枚数
+// 計算手牌枚數
 func CountOfTiles34(tiles34 []int) (count int) {
 	for _, c := range tiles34 {
 		count += c
@@ -183,7 +183,7 @@ func CountOfTiles34(tiles34 []int) (count int) {
 	return
 }
 
-// 计算手牌对子数
+// 計算手牌對子數
 func CountPairsOfTiles34(tiles34 []int) (count int) {
 	for _, c := range tiles34 {
 		if c >= 2 {
@@ -201,7 +201,7 @@ func InitLeftTiles34() []int {
 	return leftTiles34
 }
 
-// 根据传入的牌，返回移除这些牌后剩余的牌
+// 根據傳入的牌，返回移除這些牌後剩餘的牌
 func InitLeftTiles34WithTiles34(tiles34 []int) []int {
 	leftTiles34 := make([]int, 34)
 	for i, count := range tiles34 {
@@ -210,7 +210,7 @@ func InitLeftTiles34WithTiles34(tiles34 []int) []int {
 	return leftTiles34
 }
 
-// 计算外侧牌
+// 計算外側牌
 func OutsideTiles(tile int) (outsideTiles []int) {
 	if tile >= 27 {
 		return
@@ -223,19 +223,19 @@ func OutsideTiles(tile int) (outsideTiles []int) {
 			outsideTiles = append(outsideTiles, i)
 		}
 	case 5:
-		// 早巡切5，37 比较安全（TODO 还有片筋A 46）
+		// 早巡切5，37 比較安全（TODO 還有片筋A 46）
 		outsideTiles = append(outsideTiles, tile-2, tile+2)
 	case 6, 7, 8:
 		for i := tile - tile%9 + 8; i > tile; i-- {
 			outsideTiles = append(outsideTiles, i)
 		}
 	default:
-		panic(fmt.Errorf("[OutsideTiles] 代码有误: tile = %d", tile))
+		panic(fmt.Errorf("[OutsideTiles] 代碼有誤: tile = %d", tile))
 	}
 	return
 }
 
-// 随机补充一张牌
+// 隨機補充一張牌
 func RandomAddTile(tiles34 []int) {
 	for {
 		if tile := rand.Intn(34); tiles34[tile] < 4 {

@@ -48,7 +48,7 @@ func (c *WebSocketClient) run() {
 		}
 
 		if len(data) <= 3 {
-			fmt.Fprintln(os.Stderr, "数据过短", data)
+			fmt.Fprintln(os.Stderr, "數據過短", data)
 			continue
 		}
 
@@ -75,7 +75,7 @@ func (c *WebSocketClient) run() {
 
 func (c *WebSocketClient) Connect(endpoint string, origin string) error {
 	header := http.Header{}
-	header.Set("origin", origin) // 模拟来源
+	header.Set("origin", origin) // 模擬來源
 	ws, _, err := websocket.DefaultDialer.Dial(endpoint, header)
 	if err != nil {
 		return err
@@ -102,7 +102,7 @@ func (c *WebSocketClient) Close() error {
 }
 
 func (c *WebSocketClient) send(name string, reqMessage proto.Message, respMessageChan interface{}) error {
-	// 避免并发时同时读写 c.messageIndex 等变量
+	// 避免並發時同時讀寫 c.messageIndex 等變量
 	c.Lock()
 	defer c.Unlock()
 
@@ -134,7 +134,7 @@ func (c *WebSocketClient) callLobby(methodName string, reqMessage proto.Message,
 
 func (c *WebSocketClient) heartbeat() {
 	for !c.closed {
-		// 吐槽：雀魂的开发把 heart 错写成了 heat
+		// 吐槽：雀魂的開發把 heart 錯寫成了 heat
 		if _, err := c.Heatbeat(&lq.ReqHeatBeat{}); err != nil {
 			fmt.Fprintln(os.Stderr, "heartbeat:", err)
 		}

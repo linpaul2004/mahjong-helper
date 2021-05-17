@@ -32,7 +32,7 @@ func TestCalculateRiskTiles34_19(t *testing.T) {
 	}
 }
 
-// 寻找绝对安牌（不考虑国士）
+// 尋找絕對安牌（不考慮國士）
 func TestCalculateRiskTiles34_SafeTile(t *testing.T) {
 	assert := assert.New(t)
 
@@ -73,11 +73,11 @@ func TestCalculateLeftNoSujiTiles(t *testing.T) {
 
 	safeTiles34 := make([]bool, 34)
 
-	// 初始（18 无筋）
+	// 初始（18 無筋）
 	leftTiles34 := InitLeftTiles34()
 	assert.Equal("123789m 123789p 123789s", TilesToStr(CalculateLeftNoSujiTiles(safeTiles34, leftTiles34)))
 
-	// 断幺壁
+	// 斷幺壁
 	leftTiles34 = InitLeftTiles34WithTiles34(MustStrToTiles34("33337777m 22228888p 5555s"))
 	assert.Equal("37p 1289s", TilesToStr(CalculateLeftNoSujiTiles(safeTiles34, leftTiles34)))
 
@@ -85,7 +85,7 @@ func TestCalculateLeftNoSujiTiles(t *testing.T) {
 	leftTiles34 = InitLeftTiles34WithTiles34(MustStrToTiles34("11119999m 11119999p 11119999s"))
 	assert.Equal("2378m 2378p 2378s", TilesToStr(CalculateLeftNoSujiTiles(safeTiles34, leftTiles34)))
 
-	// 现物（0 无筋）
+	// 現物（0 無筋）
 	discardTiles34 := MustStrToTiles34("123789m 123789p 123789s")
 	leftTiles34 = InitLeftTiles34()
 	for i, c := range discardTiles34 {
@@ -93,7 +93,7 @@ func TestCalculateLeftNoSujiTiles(t *testing.T) {
 	}
 	assert.Equal("", TilesToStr(CalculateLeftNoSujiTiles(safeTiles34, leftTiles34)))
 
-	// 筋（0 无筋）
+	// 筋（0 無筋）
 	discardTiles34 = MustStrToTiles34("456m 456p 456s")
 	leftTiles34 = InitLeftTiles34()
 	for i, c := range discardTiles34 {

@@ -52,7 +52,7 @@ func getRecommendServers(apiGetRecommendServersURL string) (servers []string, er
 	return recommendServers.Servers, nil
 }
 
-// 获取雀魂 WebSocket 服务器地址
+// 獲取雀魂 WebSocket 服務器地址
 func GetMajsoulWebSocketURL() (url string, err error) {
 	version, err := GetMajsoulVersion(ApiGetVersionZH)
 	if err != nil {
@@ -71,10 +71,10 @@ func GetMajsoulWebSocketURL() (url string, err error) {
 		return
 	}
 	if len(servers) == 0 {
-		return "", fmt.Errorf("维护中，没有可用的服务器地址")
+		return "", fmt.Errorf("維護中，沒有可用的服務器地址")
 	}
 
-	// 随机取一个
+	// 隨機取一個
 	host := servers[rand.Intn(len(servers))]
 	url = "wss://" + host + "/"
 	return

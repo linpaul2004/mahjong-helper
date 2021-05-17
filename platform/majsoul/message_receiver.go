@@ -11,8 +11,8 @@ import (
 	"github.com/EndlessCheng/mahjong-helper/platform/majsoul/proto/lq"
 )
 
-// 若 NotifyMessage 不为空，这该消息为通知，RequestMessage 和 ResponseMessage 字段为空
-// 否则该消息为请求响应，NotifyMessage 字段为空
+// 若 NotifyMessage 不為空，這該消息為通知，RequestMessage 和 ResponseMessage 字段為空
+// 否則該消息為請求響應，NotifyMessage 字段為空
 type Message struct {
 	Name            string        `json:"name"`
 	RequestMessage  proto.Message `json:"request_message,omitempty"`
@@ -21,8 +21,8 @@ type Message struct {
 }
 
 type MessageReceiver struct {
-	originMessageQueue  chan []byte   // 包含所有 WebSocket 发出的消息和收到的消息
-	orderedMessageQueue chan *Message // 整理后的 WebSocket 收到的消息（包含请求响应和通知）
+	originMessageQueue  chan []byte   // 包含所有 WebSocket 發出的消息和收到的消息
+	orderedMessageQueue chan *Message // 整理後的 WebSocket 收到的消息（包含請求響應和通知）
 
 	indexToMessageMap map[uint16]*Message
 }
@@ -48,11 +48,11 @@ func (mr *MessageReceiver) run() {
 				fmt.Fprintln(os.Stderr, "MessageReceiver.run.api.UnwrapData.NOTIFY", err)
 				continue
 			}
-			notifyName = notifyName[1:] // 移除开头的 .
+			notifyName = notifyName[1:] // 移除開頭的 .
 
 			mt := proto.MessageType(notifyName)
 			if mt == nil {
-				fmt.Fprintf(os.Stderr, "MessageReceiver.run 未找到 %s，请检查！\n", notifyName)
+				fmt.Fprintf(os.Stderr, "MessageReceiver.run 未找到 %s，請檢查！\n", notifyName)
 				continue
 			}
 			messagePtr := reflect.New(mt.Elem())
@@ -73,9 +73,9 @@ func (mr *MessageReceiver) run() {
 				fmt.Fprintln(os.Stderr, "MessageReceiver.run.api.UnwrapData.REQUEST", err)
 				continue
 			}
-			rawMethodName = rawMethodName[1:] // 移除开头的 .
+			rawMethodName = rawMethodName[1:] // 移除開頭的 .
 
-			// 通过 rawMethodName 找到请求类型和请求响应类型
+			// 通過 rawMethodName 找到請求類型和請求響應類型
 			splits := strings.Split(rawMethodName, ".")
 			clientName, methodName := splits[1], splits[2]
 			methodType := lq.FindMethod(clientName, methodName)
@@ -102,7 +102,7 @@ func (mr *MessageReceiver) run() {
 			messageIndex := binary.LittleEndian.Uint16(data[1:3])
 			message, ok := mr.indexToMessageMap[messageIndex]
 			if !ok {
-				// 用户在启动助手前就启动了雀魂
+				// 用戶在啟動助手前就啟動了雀魂
 				continue
 			}
 			delete(mr.indexToMessageMap, messageIndex)
@@ -112,7 +112,7 @@ func (mr *MessageReceiver) run() {
 			}
 			mr.orderedMessageQueue <- message
 		default:
-			panic(fmt.Sprintln("[MessageReceiver] 数据有误", messageType))
+			panic(fmt.Sprintln("[MessageReceiver] 數據有誤", messageType))
 		}
 	}
 }

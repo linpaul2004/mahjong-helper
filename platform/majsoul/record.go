@@ -20,8 +20,8 @@ const (
 	RecordTypeFriend      uint32 = 1
 	RecordTypeLevel       uint32 = 2
 	RecordTypeCompetition uint32 = 4
-	// 收藏的牌谱用 FetchGameRecordsDetail 接口获取
-	// 该接口传入的 UUID 在登录后调用 FetchCollectedGameRecordList 获得
+	// 收藏的牌譜用 FetchGameRecordsDetail 接口獲取
+	// 該接口傳入的 UUID 在登錄後調用 FetchCollectedGameRecordList 獲得
 )
 
 func genReqLogin(username string, password string) (*lq.ReqLogin, error) {
@@ -30,7 +30,7 @@ func genReqLogin(username string, password string) (*lq.ReqLogin, error) {
 	mac.Write([]byte(password))
 	password = fmt.Sprintf("%x", mac.Sum(nil))
 
-	// randomKey 最好是个固定值
+	// randomKey 最好是個固定值
 	randomKey, ok := os.LookupEnv("RANDOM_KEY")
 	if !ok {
 		randomKey = uuid.NewV4().String()
@@ -65,7 +65,7 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 	}
 	defer c.Close()
 
-	// 登录
+	// 登錄
 	reqLogin, err := genReqLogin(username, password)
 	if err != nil {
 		return err
@@ -75,8 +75,8 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 	}
 	defer c.Logout(&lq.ReqLogout{})
 
-	// 分页获取牌谱列表
-	// TODO: 若之前下载过，可以判断：上次是否下载完成->只下载本地最新文件之后的牌谱
+	// 分頁獲取牌譜列表
+	// TODO: 若之前下載過，可以判斷：上次是否下載完成->只下載本地最新文件之後的牌譜
 	recordList := []*lq.RecordGame{}
 	const pageSize = 10
 	for i := uint32(1); ; i += pageSize {
@@ -95,11 +95,11 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 		}
 	}
 
-	// TODO: 若牌谱数量巨大，可以使用协程增加下载速度
+	// TODO: 若牌譜數量巨大，可以使用協程增加下載速度
 	for i, gameRecord := range recordList {
 		fmt.Printf("%d/%d %s\n", i+1, len(recordList), gameRecord.Uuid)
 
-		// 获取具体牌谱内容
+		// 獲取具體牌譜內容
 		reqGameRecord := lq.ReqGameRecord{
 			GameUuid: gameRecord.Uuid,
 		}
@@ -113,7 +113,7 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 		if len(data) == 0 {
 			dataURL := respGameRecord.DataUrl
 			if dataURL == "" {
-				fmt.Fprintln(os.Stderr, "数据异常: dataURL 为空")
+				fmt.Fprintln(os.Stderr, "數據異常: dataURL 為空")
 				continue
 			}
 			data, err = tool.Fetch(dataURL)
@@ -138,10 +138,10 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 				return err
 			}
 
-			name = name[1:] // 移除开头的 .
+			name = name[1:] // 移除開頭的 .
 			mt := proto.MessageType(name)
 			if mt == nil {
-				return fmt.Errorf("未找到 %s，请检查代码！", name)
+				return fmt.Errorf("未找到 %s，請檢查代碼！", name)
 			}
 			messagePtr := reflect.New(mt.Elem())
 			if err := proto.Unmarshal(data, messagePtr.Interface().(proto.Message)); err != nil {
@@ -149,7 +149,7 @@ func DownloadRecords(username string, password string, recordType uint32) error 
 			}
 
 			details = append(details, messageWithType{
-				Name: name[3:], // 移除开头的 lq.
+				Name: name[3:], // 移除開頭的 lq.
 				Data: messagePtr.Interface().(proto.Message),
 			})
 		}

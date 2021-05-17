@@ -37,7 +37,7 @@ func TestCalculateShanten(t *testing.T) {
 	assert.Equal(3, CalculateShanten(MustStrToTiles34("13579m 12379s 135p")))
 	assert.Equal(1, CalculateShanten(MustStrToTiles34("123456789m 147s 14m")))
 	assert.Equal(2, CalculateShanten(MustStrToTiles34("123456789m 147s 1m")))
-	assert.Equal(6, CalculateShanten(MustStrToTiles34("258m 258s 258p 12345z"))) // 和牌最远
+	assert.Equal(6, CalculateShanten(MustStrToTiles34("258m 258s 258p 12345z"))) // 和牌最遠
 	assert.Equal(0, CalculateShanten(MustStrToTiles34("123456789m 1134p")))
 	assert.Equal(-1, CalculateShanten(MustStrToTiles34("123456789m 11345p")))
 

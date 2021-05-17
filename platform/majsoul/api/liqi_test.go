@@ -15,19 +15,19 @@ import (
 func _genReqLogin(t *testing.T) *lq.ReqLogin {
 	username, ok := os.LookupEnv("USERNAME")
 	if !ok {
-		t.Skip("未配置环境变量 USERNAME，退出")
+		t.Skip("未配置環境變量 USERNAME，退出")
 	}
 
 	password, ok := os.LookupEnv("PASSWORD")
 	if !ok {
-		t.Skip("未配置环境变量 PASSWORD，退出")
+		t.Skip("未配置環境變量 PASSWORD，退出")
 	}
 	const key = "lailai" // from code.js
 	mac := hmac.New(sha256.New, []byte(key))
 	mac.Write([]byte(password))
 	password = fmt.Sprintf("%x", mac.Sum(nil))
 
-	// randomKey 最好是个固定值
+	// randomKey 最好是個固定值
 	randomKey, ok := os.LookupEnv("RANDOM_KEY")
 	if !ok {
 		rawRandomKey, _ := uuid.NewV4()
@@ -67,7 +67,7 @@ func _genReqOauth2Login(t *testing.T, accessToken string) *lq.ReqOauth2Login {
 		t.Fatal(err)
 	}
 	return &lq.ReqOauth2Login{
-		Type:        0, // ? 怀疑是账号/QQ/微信/微博
+		Type:        0, // ? 懷疑是帳號/QQ/微信/微博
 		AccessToken: accessToken,
 		Reconnect:   false,
 		Device: &lq.ClientDeviceInfo{
@@ -87,7 +87,7 @@ func TestLogin(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log("连接 endpoint: " + endpoint)
+	t.Log("連接 endpoint: " + endpoint)
 	c := NewWebSocketClient()
 	if err := c.Connect(endpoint, tool.MajsoulOriginURL); err != nil {
 		t.Fatal(err)
@@ -97,9 +97,9 @@ func TestLogin(t *testing.T) {
 	reqLogin := _genReqLogin(t)
 	respLogin, err := c.Login(reqLogin)
 	if err != nil {
-		t.Skip("登录失败:", err)
+		t.Skip("登錄失敗:", err)
 	}
-	t.Log("登录成功:", respLogin)
+	t.Log("登錄成功:", respLogin)
 	t.Log(respLogin.AccessToken)
 
 	time.Sleep(time.Second)
@@ -116,7 +116,7 @@ func TestReLogin(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log("连接 endpoint: " + endpoint)
+	t.Log("連接 endpoint: " + endpoint)
 	c := NewWebSocketClient()
 	if err := c.Connect(endpoint, tool.MajsoulOriginURL); err != nil {
 		t.Fatal(err)
@@ -125,29 +125,29 @@ func TestReLogin(t *testing.T) {
 
 	accessToken, ok := os.LookupEnv("TOKEN")
 	if !ok {
-		t.Skip("未配置环境变量 TOKEN，退出")
+		t.Skip("未配置環境變量 TOKEN，退出")
 	}
 	reqOauth2Check := lq.ReqOauth2Check{
-		// Type = 3 为 QQ
-		Type:        0, // 账号/QQ/微信/微博/ 海外的……?
+		// Type = 3 為 QQ
+		Type:        0, // 帳號/QQ/微信/微博/ 海外的……?
 		AccessToken: accessToken,
 	}
 	respOauth2Check, err := c.Oauth2Check(&reqOauth2Check)
 	if err != nil {
-		t.Skip("token 验证失败:", err)
+		t.Skip("token 驗證失敗:", err)
 	}
 	t.Log(respOauth2Check)
 
 	if !respOauth2Check.HasAccount {
-		t.Skip("无效的 token")
+		t.Skip("無效的 token")
 	}
 
 	reqOauth2Login := _genReqOauth2Login(t, accessToken)
 	respLogin, err := c.Oauth2Login(reqOauth2Login)
 	if err != nil {
-		t.Skip("登录失败:", err)
+		t.Skip("登錄失敗:", err)
 	}
-	t.Log("登录成功:", respLogin)
+	t.Log("登錄成功:", respLogin)
 	t.Log(respLogin.AccessToken)
 
 	time.Sleep(time.Second)

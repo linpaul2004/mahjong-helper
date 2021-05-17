@@ -10,8 +10,8 @@ import (
 	"strconv"
 )
 
-// 编码后的手牌 => 编码后的雀头面子拆解（七对子单独设置在一个比特位上；国士未算在内）
-// 拆解是一个数组，因为同一个手牌可能会有多种不同的拆解方式
+// 編碼後的手牌 => 編碼後的雀頭面子拆解（七對子單獨設置在一個比特位上；國士未算在內）
+// 拆解是一個數組，因為同一個手牌可能會有多種不同的拆解方式
 // len(winTable) == 9362
 var winTable = map[int][]int{}
 
@@ -29,7 +29,7 @@ func init() {
 	pnc(err)
 
 	if len(zipRd.File) == 0 {
-		pnc(fmt.Errorf("错误的压缩数据"))
+		pnc(fmt.Errorf("錯誤的壓縮數據"))
 	}
 
 	f := zipRd.File[0]
@@ -39,13 +39,13 @@ func init() {
 	data, err := ioutil.ReadAll(rc)
 	lines := strings.Split(string(data), "\n")
 	if len(lines) != 9362 {
-		pnc(fmt.Errorf("错误的数据 %d", len(lines)))
+		pnc(fmt.Errorf("錯誤的數據 %d", len(lines)))
 	}
 
 	for _, line := range lines {
 		splits := strings.Split(line, " ")
 		if len(splits) < 2 {
-			pnc(fmt.Errorf("错误的数据 %s", line))
+			pnc(fmt.Errorf("錯誤的數據 %s", line))
 		}
 		key, err := strconv.Atoi(splits[0])
 		pnc(err)
@@ -58,7 +58,7 @@ func init() {
 	}
 }
 
-// 数据来源见 ./mjscore/generator.rb
+// 數據來源見 ./mjscore/generator.rb
 const agariData = "" +
 	"UEsDBBQACAAIABJ0u04AAAAAAAAAAAAAAAAHABAAb3V0LnR4dFVYDACRhOtcg4TrXPUBFACEXVmSJSu" +
 	"u/K9V1BKYEfvf2JO7JFBk5X19ra0rAzgEIUDzMPZqTf7203eds/1pp54if0efa641/jQpXfAsba+6/r" +

@@ -2,7 +2,7 @@ package main
 
 const (
 	majsoulGameConfigCategoryFriends = 1 // 友人
-	majsoulGameConfigCategoryMatch   = 2 // 段位 比赛
+	majsoulGameConfigCategoryMatch   = 2 // 段位 比賽
 )
 
 // 古役 {\"category\":2,\"mode\":{\"mode\":1,\"detail_rule\":{\"guyi_mode\":1}}

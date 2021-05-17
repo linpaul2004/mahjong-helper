@@ -11,7 +11,7 @@ func interact(humanTilesInfo *model.HumanTilesInfo) error {
 	if !debugMode {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println("内部错误：", err)
+				fmt.Println("內部錯誤：", err)
 			}
 		}()
 	}
@@ -27,18 +27,18 @@ func interact(humanTilesInfo *model.HumanTilesInfo) error {
 		count := util.CountOfTiles34(tiles34)
 		switch count % 3 {
 		case 0:
-			return fmt.Errorf("参数错误: %d 张牌", count)
+			return fmt.Errorf("參數錯誤: %d 張牌", count)
 		case 1:
 			fmt.Print("> 摸 ")
 			fmt.Scanf("%s\n", &tile)
 			tile, isRedFive, err := util.StrToTile34(tile)
 			if err != nil {
-				// 让用户重新输入
+				// 讓用戶重新輸入
 				fmt.Fprintln(os.Stderr, err)
 				continue
 			}
 			if tiles34[tile] == 4 {
-				// 让用户重新输入
+				// 讓用戶重新輸入
 				fmt.Fprintln(os.Stderr, "不可能摸更多的牌了")
 				continue
 			}
@@ -52,12 +52,12 @@ func interact(humanTilesInfo *model.HumanTilesInfo) error {
 			fmt.Scanf("%s\n", &tile)
 			tile, isRedFive, err := util.StrToTile34(tile)
 			if err != nil {
-				// 让用户重新输入
+				// 讓用戶重新輸入
 				fmt.Fprintln(os.Stderr, err)
 				continue
 			}
 			if tiles34[tile] == 0 {
-				// 让用户重新输入
+				// 讓用戶重新輸入
 				fmt.Fprintln(os.Stderr, "切掉的牌不存在")
 				continue
 			}
@@ -65,7 +65,7 @@ func interact(humanTilesInfo *model.HumanTilesInfo) error {
 				playerInfo.NumRedFives[tile/9]--
 			}
 			tiles34[tile]--
-			playerInfo.DiscardTiles = append(playerInfo.DiscardTiles, tile) // 仅判断振听用
+			playerInfo.DiscardTiles = append(playerInfo.DiscardTiles, tile) // 僅判斷振聽用
 		}
 		if err := analysisPlayerWithRisk(playerInfo, nil); err != nil {
 			fmt.Fprintln(os.Stderr, err)

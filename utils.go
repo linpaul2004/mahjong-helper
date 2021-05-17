@@ -9,14 +9,14 @@ import (
 
 func errorExit(args ...interface{}) {
 	fmt.Fprintln(os.Stderr, args...)
-	fmt.Println("按任意键退出...")
+	fmt.Println("按任意鍵退出...")
 	bufio.NewReader(os.Stdin).ReadByte()
 	os.Exit(1)
 }
 
 //
 
-// 进张数优劣
+// 進張數優劣
 func getWaitsCountColor(shanten int, waitsCount float64) color.Attribute {
 	_getWaitsCountColor := func(fixedWaitsCount float64) color.Attribute {
 		switch {
@@ -39,7 +39,7 @@ func getWaitsCountColor(shanten int, waitsCount float64) color.Attribute {
 	return _getWaitsCountColor(waitsCount / float64(weight))
 }
 
-// 他家中张舍牌提示
+// 他家中張捨牌提示
 func getOtherDiscardAlertColor(index int) color.Attribute {
 	if index >= 27 {
 		return color.FgWhite
@@ -52,11 +52,11 @@ func getOtherDiscardAlertColor(index int) color.Attribute {
 	case 4, 5, 6:
 		return color.FgHiRed
 	default:
-		panic(fmt.Errorf("[getOtherDiscardAlertColor] 代码有误: index = %d", index))
+		panic(fmt.Errorf("[getOtherDiscardAlertColor] 代碼有誤: index = %d", index))
 	}
 }
 
-// 铳率高低
+// 銃率高低
 func getNumRiskColor(risk float64) color.Attribute {
 	switch {
 	//case risk < 3:

@@ -8,11 +8,11 @@ func roundUpFu(fu int) int {
 	return ((fu-1)/10 + 1) * 10
 }
 
-// 根据手牌拆解结果，结合场况计算符数
+// 根據手牌拆解結果，結合場況計算符數
 func (hi *_handInfo) calcFu(isNaki bool) int {
 	divideResult := hi.divideResult
 
-	// 特殊：七对子计 25 符
+	// 特殊：七對子計 25 符
 	if divideResult.IsChiitoi {
 		return 25
 	}
@@ -26,7 +26,7 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 	_, ronKotsu := hi.numAnkou()
 	for _, tile := range divideResult.KotsuTiles {
 		var _fu int
-		// 荣和刻子算明刻
+		// 榮和刻子算明刻
 		if ronKotsu && tile == hi.WinTile {
 			_fu = 2
 		} else {
@@ -38,7 +38,7 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 		fu += _fu
 	}
 
-	// 明刻、明杠、暗杠加符
+	// 明刻、明槓、暗槓加符
 	for _, meld := range hi.Melds {
 		_fu := 0
 		switch meld.MeldType {
@@ -57,7 +57,7 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 		}
 	}
 
-	// 雀头加符（连风雀头计 4 符）
+	// 雀頭加符（連風雀頭計 4 符）
 	if hi.isYakuTile(divideResult.PairTile) {
 		fu += 2
 		if hi.isDoubleWindTile(divideResult.PairTile) {
@@ -66,13 +66,13 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 	}
 
 	if fu == baseFu {
-		// 手牌全是顺子，且雀头不是役牌
+		// 手牌全是順子，且雀頭不是役牌
 		if isNaki {
-			// 无论怎样都不可能超过 30 符，直接返回
+			// 無論怎樣都不可能超過 30 符，直接返回
 			return 30
 		}
-		// 门清状态下需要检测能否平和
-		// 若没有平和则一定是坎张、边张、单骑和牌
+		// 門清狀態下需要檢測能否平和
+		// 若沒有平和則一定是坎張、邊張、單騎和牌
 		isPinfu := false
 		for _, tile := range divideResult.ShuntsuFirstTiles {
 			t9 := tile % 9
@@ -83,23 +83,23 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 		}
 		if hi.IsTsumo {
 			if isPinfu {
-				// 门清自摸平和 20 符
+				// 門清自摸平和 20 符
 				return 20
 			}
-			// 坎张、边张、单骑自摸，30 符
+			// 坎張、邊張、單騎自摸，30 符
 			return 30
 		} else {
-			// 荣和
+			// 榮和
 			if isPinfu {
-				// 门清平和荣和 30 符
+				// 門清平和榮和 30 符
 				return 30
 			}
-			// 坎张、边张、单骑荣和，40 符
+			// 坎張、邊張、單騎榮和，40 符
 			return 40
 		}
 	}
 
-	// 门清荣和加符
+	// 門清榮和加符
 	if !isNaki && !hi.IsTsumo {
 		fu += 10
 	}
@@ -109,23 +109,23 @@ func (hi *_handInfo) calcFu(isNaki bool) int {
 		fu += 2
 	}
 
-	// 边张、坎张、单骑和牌加符
-	// 考虑能否不为两面和牌
+	// 邊張、坎張、單騎和牌加符
+	// 考慮能否不為兩面和牌
 	if divideResult.PairTile == hi.WinTile {
-		fu += 2 // 单骑和牌加符
+		fu += 2 // 單騎和牌加符
 	} else {
 		for _, tile := range divideResult.ShuntsuFirstTiles {
 			if tile+1 == hi.WinTile {
-				fu += 2 // 坎张和牌加符
+				fu += 2 // 坎張和牌加符
 				break
 			}
 			if tile%9 == 0 && tile+2 == hi.WinTile || tile%9 == 6 && tile == hi.WinTile {
-				fu += 2 // 边张和牌加符
+				fu += 2 // 邊張和牌加符
 				break
 			}
 		}
 	}
 
-	// 进位
+	// 進位
 	return roundUpFu(fu)
 }

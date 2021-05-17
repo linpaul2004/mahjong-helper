@@ -1,10 +1,10 @@
 package util
 
-// [副露数][巡目][副露之后的手切数(手切数为0即鸣牌那一巡)]
+// [副露數][巡目][副露之後的手切數(手切數為0即鳴牌那一巡)]
 var tenpaiRate = [][][]float64{
 	{
-		// TODO: 默听
-		// 可以大致近似为巡目数
+		// TODO: 默聽
+		// 可以大緻近似為巡目數
 	},
 	{
 		// 1 副露
@@ -74,8 +74,8 @@ var tenpaiRate = [][][]float64{
 	},
 }
 
-// 用四麻的数据近似得到三麻的数据
-// 更加精确的数据见 https://shikkaku.com/data_sanma_20
+// 用四麻的數據近似得到三麻的數據
+// 更加精確的數據見 https://shikkaku.com/data_sanma_20
 func GetTenpaiRate3(rate4 float64) (rate3 float64) {
 	return rate4 * (2 - rate4/100)
 }

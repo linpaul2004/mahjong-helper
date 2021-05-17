@@ -2,31 +2,31 @@ package util
 
 type tileType int8
 
-// 与 RiskRate 的列一一对应
+// 與 RiskRate 的列一一對應
 const (
-	//                                      例如，第9巡的数据为
+	//                                      例如，第9巡的數據為
 	tileTypeNoSuji5      tileType = iota // 12.8
 	tileTypeNoSuji46                     // 13.1
 	tileTypeNoSuji37                     // 9.5
 	tileTypeNoSuji28                     // 8.6
 	tileTypeNoSuji19                     // 7.4
 	tileTypeHalfSuji5                    // 7.4
-	tileTypeHalfSuji46A                  // 7.2 现物为19
-	tileTypeHalfSuji46B                  // 7.9 现物为73
+	tileTypeHalfSuji46A                  // 7.2 現物為19
+	tileTypeHalfSuji46B                  // 7.9 現物為73
 	tileTypeSuji37                       // 5.5
 	tileTypeSuji28                       // 3.9
 	tileTypeSuji19                       // 1.8
 	tileTypeDoubleSuji5                  // 2.2
 	tileTypeDoubleSuji46                 // 2.3
-	tileTypeYakuHaiLeft3                 // 4.6 字牌-役牌-剩余3
-	tileTypeYakuHaiLeft2                 // 1.9 字牌-役牌-剩余2
-	tileTypeYakuHaiLeft1                 // 0.3 字牌-役牌-剩余1
-	tileTypeOtakazeLeft3                 // 4.0 字牌-客风-剩余3
-	tileTypeOtakazeLeft2                 // 1.8 字牌-客风-剩余2
-	tileTypeOtakazeLeft1                 // 0.2 字牌-客风-剩余1
+	tileTypeYakuHaiLeft3                 // 4.6 字牌-役牌-剩餘3
+	tileTypeYakuHaiLeft2                 // 1.9 字牌-役牌-剩餘2
+	tileTypeYakuHaiLeft1                 // 0.3 字牌-役牌-剩餘1
+	tileTypeOtakazeLeft3                 // 4.0 字牌-客風-剩餘3
+	tileTypeOtakazeLeft2                 // 1.8 字牌-客風-剩餘2
+	tileTypeOtakazeLeft1                 // 0.2 字牌-客風-剩餘1
 )
 
-// [巡目][类型]
+// [巡目][類型]
 var RiskRate = [][]float64{
 	{},
 	{5.7, 5.7, 5.8, 4.7, 3.4, 2.5, 2.5, 3.1, 5.6, 3.8, 1.8, 0.8, 2.6, 2.1, 1.2, 0.5, 2.4, 1.4, 1.2}, // 1
@@ -51,7 +51,7 @@ var RiskRate = [][]float64{
 }
 var MaxTurns = len(RiskRate) - 1
 
-// 考虑失点的综合值（参考第9巡的数据）
+// 考慮失點的綜合值（參考第9巡的數據）
 var FixedDoraRiskRateMulti = []float64{
 	14.9 / 12.8 * 78 / 58,
 	15.0 / 13.1 * 78 / 58,
@@ -77,9 +77,9 @@ var FixedDoraRiskRateMulti = []float64{
 }
 
 var (
-	// [需要判断危险度的牌号(0-8)][是否有对应的现物(0-1或0-3)]
-	// 123789: 无现物，有现物
-	// 4: 无17现物，无1有7，有1无7，有17
+	// [需要判斷危險度的牌號(0-8)][是否有對應的現物(0-1或0-3)]
+	// 123789: 無現物，有現物
+	// 4: 無17現物，無1有7，有1無7，有17
 	// 56: 同上
 	TileTypeTable = [][]tileType{
 		{tileTypeNoSuji19, tileTypeSuji19},
@@ -92,7 +92,7 @@ var (
 		{tileTypeNoSuji28, tileTypeSuji28},
 		{tileTypeNoSuji19, tileTypeSuji19},
 	}
-	// [是否为役牌(0-1)][剩余数-1]
+	// [是否為役牌(0-1)][剩餘數-1]
 	HonorTileType = [][]tileType{
 		{tileTypeOtakazeLeft1, tileTypeOtakazeLeft2, tileTypeOtakazeLeft3, tileTypeOtakazeLeft3},
 		{tileTypeYakuHaiLeft1, tileTypeYakuHaiLeft2, tileTypeYakuHaiLeft3, tileTypeYakuHaiLeft3},

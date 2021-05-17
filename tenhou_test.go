@@ -34,7 +34,7 @@ func TestAnalysisTilesRisk(t *testing.T) {
 		}
 		d.leftCounts[i] -= c
 		if d.leftCounts[c] < 0 {
-			t.Fatal("参数有误: ", util.Mahjong[c])
+			t.Fatal("參數有誤: ", util.Mahjong[c])
 		}
 	}
 	for i, c := range globalDiscardTiles34 {
@@ -43,7 +43,7 @@ func TestAnalysisTilesRisk(t *testing.T) {
 		}
 		d.leftCounts[i] -= c
 		if d.leftCounts[c] < 0 {
-			t.Fatal("参数有误: ", util.Mahjong[c])
+			t.Fatal("參數有誤: ", util.Mahjong[c])
 		}
 		d.globalDiscardTiles = append(d.globalDiscardTiles, i)
 	}

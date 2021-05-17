@@ -5,56 +5,56 @@ import (
 	"sort"
 )
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) daburii() bool {
 	return hi.IsDaburii
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) riichi() bool {
 	return !hi.IsDaburii && hi.IsRiichi
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) tsumo() bool {
 	return !hi.IsNaki() && hi.IsTsumo
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) chiitoi() bool {
 	return hi.divideResult.IsChiitoi
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) pinfu() bool {
-	// 顺子数必须为 4
+	// 順子數必須為 4
 	if len(hi.divideResult.ShuntsuFirstTiles) != 4 {
 		return false
 	}
 
-	// 雀头不能是役牌
+	// 雀頭不能是役牌
 	if hi.isYakuTile(hi.divideResult.PairTile) {
 		return false
 	}
 
 	for _, tile := range hi.divideResult.ShuntsuFirstTiles {
-		// 是两面和牌
+		// 是兩面和牌
 		if tile%9 < 6 && tile == hi.WinTile || tile%9 > 0 && tile+2 == hi.WinTile {
 			return true
 		}
 	}
 
-	// 没有两面和牌
+	// 沒有兩面和牌
 	return false
 }
 
-// 门清限定
+// 門清限定
 func (hi *_handInfo) ryanpeikou() bool {
 	return hi.divideResult.IsRyanpeikou
 }
 
-// 门清限定
-// 两杯口时不算一杯口
+// 門清限定
+// 兩盃口時不算一盃口
 func (hi *_handInfo) iipeikou() bool {
 	return hi.divideResult.IsIipeikou
 }
@@ -95,7 +95,7 @@ func (hi *_handInfo) ittsuu() bool {
 		}
 	}
 	if !hasNakiShuntsu {
-		// 没有鸣顺子就直接用
+		// 沒有鳴順子就直接用
 		return hi.divideResult.IsIttsuu
 	}
 
@@ -103,7 +103,7 @@ func (hi *_handInfo) ittsuu() bool {
 	if len(shuntsuFirstTiles) < 3 {
 		return false
 	}
-	// （这里没用排序，因为下面用的是更为快速的比较）
+	// （這裏沒用排序，因為下面用的是更為快速的比較）
 	// 若有 123，找是否有同色的 456 和 789
 	for _, tile := range shuntsuFirstTiles {
 		if tile%9 == 0 { // has123
@@ -128,8 +128,8 @@ func (hi *_handInfo) toitoi() bool {
 	return len(hi.allKotsuTiles) == 4
 }
 
-// 荣和的刻子是明刻
-// 注意 456666 这样的荣和 6，算暗刻
+// 榮和的刻子是明刻
+// 注意 456666 這樣的榮和 6，算暗刻
 func (hi *_handInfo) sanAnkou() bool {
 	num, _ := hi.numAnkou()
 	return num == 3
@@ -171,7 +171,7 @@ func (hi *_handInfo) sanKantsu() bool {
 
 func (hi *_handInfo) tanyao() bool {
 	if len(hi.Melds) == 0 {
-		// 没副露时简单判断，这考虑了七对子的情况
+		// 沒副露時簡單判斷，這考慮了七對子的情況
 		for _, tile := range YaochuTiles {
 			if hi.HandTiles34[tile] > 0 {
 				return false
@@ -180,7 +180,7 @@ func (hi *_handInfo) tanyao() bool {
 		return true
 	}
 
-	// 所有雀头和面子都不能包含幺九牌
+	// 所有雀頭和面子都不能包含幺九牌
 	dr := hi.divideResult
 	if isYaochupai(dr.PairTile) {
 		return false
@@ -198,7 +198,7 @@ func (hi *_handInfo) tanyao() bool {
 	return true
 }
 
-// 返回役牌个数，连风算两个
+// 返回役牌個數，連風算兩個
 func (hi *_handInfo) numYakuhai() (cnt int) {
 	for _, tile := range hi.allKotsuTiles {
 		if hi.isYakuTile(tile) {
@@ -212,12 +212,12 @@ func (hi *_handInfo) numYakuhai() (cnt int) {
 }
 
 func (hi *_handInfo) _chantai() bool {
-	// 必须要有顺子
+	// 必須要有順子
 	shuntsuFirstTiles := hi.allShuntsuFirstTiles
 	if len(shuntsuFirstTiles) == 0 {
 		return false
 	}
-	// 所有雀头和面子都要包含幺九牌
+	// 所有雀頭和面子都要包含幺九牌
 	if !isYaochupai(hi.divideResult.PairTile) {
 		return false
 	}
@@ -247,7 +247,7 @@ func (hi *_handInfo) honroutou() bool {
 		return false
 	}
 	if len(hi.Melds) == 0 {
-		// 没副露时简单判断，这考虑了七对子的情况
+		// 沒副露時簡單判斷，這考慮了七對子的情況
 		cnt := 0
 		for _, tile := range YaochuTiles {
 			cnt += hi.HandTiles34[tile]
@@ -255,7 +255,7 @@ func (hi *_handInfo) honroutou() bool {
 		return cnt == 14
 	}
 
-	// 不能有顺子
+	// 不能有順子
 	if len(hi.allShuntsuFirstTiles) > 0 {
 		return false
 	}
@@ -271,11 +271,11 @@ func (hi *_handInfo) honroutou() bool {
 }
 
 func (hi *_handInfo) shousangen() bool {
-	// 检查雀头
+	// 檢查雀頭
 	if hi.divideResult.PairTile < 31 {
 		return false
 	}
-	// 检查三元牌刻子个数
+	// 檢查三元牌刻子個數
 	cnt := 0
 	for _, tile := range hi.allKotsuTiles {
 		if tile >= 31 {
@@ -300,7 +300,7 @@ func (hi *_handInfo) _numSuit() int {
 	}
 
 	if hi.divideResult.IsChiitoi {
-		// 七对子特殊判断
+		// 七對子特殊判斷
 		for i, c := range hi.HandTiles34[:27] {
 			if c > 0 {
 				cnt(i)
@@ -362,9 +362,9 @@ var yakuCheckerMap = map[int]yakuChecker{
 	YakuChinitsu:       (*_handInfo).chinitsu,
 }
 
-// 检测不是役满的役种
-// 结果未排序
-// *计算前必须设置顺子牌和刻子牌
+// 檢測不是役滿的役種
+// 結果未排序
+// *計算前必須設置順子牌和刻子牌
 func findNormalYaku(hi *_handInfo, isNaki bool) (yakuTypes []int) {
 	var yakuHanMap _yakuHanMap
 	if !isNaki {
@@ -397,7 +397,7 @@ func findNormalYaku(hi *_handInfo, isNaki bool) (yakuTypes []int) {
 		}
 	}
 
-	// 役牌单独算（连风算两个）
+	// 役牌單獨算（連風算兩個）
 	numYakuhai := hi.numYakuhai()
 	for i := 0; i < numYakuhai; i++ {
 		yakuTypes = append(yakuTypes, YakuYakuhai)
@@ -406,10 +406,10 @@ func findNormalYaku(hi *_handInfo, isNaki bool) (yakuTypes []int) {
 	return
 }
 
-// 寻找役种
-// 结果未排序
+// 尋找役種
+// 結果未排序
 func findYakuTypes(hi *_handInfo, isNaki bool) (yakuTypes []int) {
-	// *计算役种前必须设置顺子牌和刻子牌
+	// *計算役種前必須設置順子牌和刻子牌
 	hi.allShuntsuFirstTiles = hi.getAllShuntsuFirstTiles()
 	hi.allKotsuTiles = hi.getAllKotsuTiles()
 
@@ -418,7 +418,7 @@ func findYakuTypes(hi *_handInfo, isNaki bool) (yakuTypes []int) {
 		sort.Ints(hi.allKotsuTiles)
 	}
 
-	// 先检测是否有役满，存在役满直接 return
+	// 先檢測是否有役滿，存在役滿直接 return
 	if yakuTypes = findYakumanTypes(hi, isNaki); len(yakuTypes) > 0 {
 		return
 	}
