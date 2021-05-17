@@ -32,7 +32,7 @@ type shanten struct {
 	numberMelds   int
 	numberTatsu   int
 	numberPairs   int
-	numberJidahai int // 13枚にしてから少なくとも打牌しなければならない字牌の數 -> これより嚮聴數は下がらない
+	numberJidahai int // 13枚にしてから少なくとも打牌しなければならない字牌の數 -> これより向聴數は下がらない
 	ankanTiles    int // 暗槓，28bit 位壓縮：27bit數牌|1bit字牌
 	isolatedTiles int // 孤張，28bit 位壓縮：27bit數牌|1bit字牌
 	minShanten    int
@@ -194,7 +194,7 @@ func (st *shanten) run(depth int) {
 	// 手牌拆解
 	switch st.tiles[depth] {
 	case 1:
-		// 孤立牌は２つ以上取る必要は無い -> 雀頭のほうが嚮聴數は下がる -> ３枚 -> 雀頭＋孤立は雀頭から取る
+		// 孤立牌は２つ以上取る必要は無い -> 雀頭のほうが向聴數は下がる -> ３枚 -> 雀頭＋孤立は雀頭から取る
 		// 孤立牌は合計８枚以上取る必要は無い
 		if i < 6 && st.tiles[depth+1] == 1 && st.tiles[depth+2] > 0 && st.tiles[depth+3] < 4 {
 			// 延べ単
